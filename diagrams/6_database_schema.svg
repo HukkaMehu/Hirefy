@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 2200" style="background-color: white;">
+  <defs>
+    <style>
+      .title { font: bold 32px sans-serif; fill: #1a1a1a; }
+      .subtitle { font: bold 18px sans-serif; fill: #333; }
+      .label { font: 14px sans-serif; fill: #1a1a1a; }
+      .small { font: 12px sans-serif; fill: #555; }
+      .tiny { font: 10px sans-serif; fill: #666; }
+      .table { fill: #e3f2fd; stroke: #1976d2; stroke-width: 2; }
+      .header { fill: #1976d2; }
+      .pk { fill: #fff3e0; }
+      .fk { fill: #e8f5e9; }
+      .relation { stroke: #424242; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#424242" />
+    </marker>
+  </defs>
+
+  <text x="900" y="40" text-anchor="middle" class="title">Database Schema</text>
+  <text x="900" y="70" text-anchor="middle" class="small">SQLite Relational Model</text>
+
+  <!-- TABLE: Candidates -->
+  <rect x="50" y="120" width="350" height="280" class="table" rx="5"/>
+  <rect x="50" y="120" width="350" height="40" class="header" rx="5"/>
+  <text x="225" y="145" text-anchor="middle" class="label" fill="white">candidates</text>
+  
+  <text x="70" y="180" class="small pk">🔑 id: UUID (PK)</text>
+  <text x="70" y="205" class="small">full_name: VARCHAR(255)</text>
+  <text x="70" y="225" class="small">email: VARCHAR(255) UNIQUE</text>
+  <text x="70" y="245" class="small">phone: VARCHAR(50)</text>
+  <text x="70" y="265" class="small">consent_signed_at: DATETIME</text>
+  <text x="70" y="285" class="small">consent_document_url: TEXT</text>
+  <text x="70" y="305" class="small">created_at: DATETIME</text>
+  <text x="70" y="325" class="small">updated_at: DATETIME</text>
+  <text x="70" y="345" class="small">github_username: VARCHAR(100)</text>
+  <text x="70" y="365" class="small">linkedin_url: TEXT</text>
+  <text x="70" y="385" class="small">portfolio_url: TEXT</text>
+
+  <!-- TABLE: VerificationSessions -->
+  <rect x="450" y="120" width="400" height="340" class="table" rx="5"/>
+  <rect x="450" y="120" width="400" height="40" class="header" rx="5"/>
+  <text x="650" y="145" text-anchor="middle" class="label" fill="white">verification_sessions</text>
+  
+  <text x="470" y="180" class="small pk">🔑 id: UUID (PK)</text>
+  <text x="470" y="200" class="small fk">🔗 candidate_id: UUID (FK)</text>
+  <text x="470" y="220" class="small">status: ENUM</text>
+  <text x="490" y="240" class="tiny">PENDING_DOCUMENTS</text>
+  <text x="490" y="255" class="tiny">DOCUMENTS_COLLECTED</text>
+  <text x="490" y="270" class="tiny">VERIFICATION_IN_PROGRESS</text>
+  <text x="490" y="285" class="tiny">COMPLETED</text>
+  <text x="490" y="300" class="tiny">FAILED</text>
+  <text x="470" y="320" class="small">risk_score: ENUM (GREEN/YELLOW/RED)</text>
+  <text x="470" y="340" class="small">created_at: DATETIME</text>
+  <text x="470" y="360" class="small">completed_at: DATETIME</text>
+  <text x="470" y="380" class="small">estimated_completion: DATETIME</text>
+  <text x="470" y="400" class="small">urgency_level: ENUM</text>
+  <text x="470" y="420" class="small">portal_token: VARCHAR(255)</text>
+  <text x="470" y="440" class="small">report_generated: BOOLEAN</text>
+
+  <!-- TABLE: Employments -->
+  <rect x="900" y="120" width="400" height="320" class="table" rx="5"/>
+  <rect x="900" y="120" width="400" height="40" class="header" rx="5"/>
+  <text x="1100" y="145" text-anchor="middle" class="label" fill="white">employments</text>
+  
+  <text x="920" y="180" class="small pk">🔑 id: UUID (PK)</text>
+  <text x="920" y="200" class="small fk">🔗 verification_session_id: UUID (FK)</text>
+  <text x="920" y="220" class="small">company_name: VARCHAR(255)</text>
+  <text x="920" y="240" class="small">job_title: VARCHAR(255)</text>
+  <text x="920" y="260" class="small">start_date: DATE</text>
+  <text x="920" y="280" class="small">end_date: DATE</text>
+  <text x="920" y="300" class="small">source: ENUM (CV/PAYSTUB/VERIFIED)</text>
+  <text x="920" y="320" class="small">verification_status: ENUM</text>
+  <text x="920" y="340" class="small">hr_contact_info: JSON</text>
+  <text x="920" y="360" class="small">verified_at: DATETIME</text>
+  <text x="920" y="380" class="small">verified_by: VARCHAR(255)</text>
+  <text x="920" y="400" class="small">notes: TEXT</text>
+  <text x="920" y="420" class="small">created_at: DATETIME</text>
+
+  <!-- TABLE: EducationCredentials -->
+  <rect x="1350" y="120" width="400" height="300" class="table" rx="5"/>
+  <rect x="1350" y="120" width="400" height="40" class="header" rx="5"/>
+  <text x="1550" y="145" text-anchor="middle" class="label" fill="white">education_credentials</text>
+  
+  <text x="1370" y="180" class="small pk">🔑 id: UUID (PK)</text>
+  <text x="1370" y="200" class="small fk">🔗 verification_session_id: UUID (FK)</text>
+  <text x="1370" y="220" class="small">institution_name: VARCHAR(255)</text>
+  <text x="1370" y="240" class="small">degree_type: VARCHAR(100)</text>
+  <text x="1370" y="260" class="small">major: VARCHAR(255)</text>
+  <text x="1370" y="280" class="small">graduation_date: DATE</text>
+  <text x="1370" y="300" class="small">source: ENUM (CV/DIPLOMA/VERIFIED)</text>
+  <text x="1370" y="320" class="small">verification_status: ENUM</text>
+  <text x="1370" y="340" class="small">registrar_contact: JSON</text>
+  <text x="1370" y="360" class="small">verified_at: DATETIME</text>
+  <text x="1370" y="380" class="small">gpa: DECIMAL(3,2)</text>
+  <text x="1370" y="400" class="small">created_at: DATETIME</text>
+
+  <!-- TABLE: ContactRecords -->
+  <rect x="50" y="480" width="400" height="340" class="table" rx="5"/>
+  <rect x="50" y="480" width="400" height="40" class="header" rx="5"/>
+  <text x="250" y="505" text-anchor="middle" class="label" fill="white">contact_records</text>
+  
+  <text x="70" y="540" class="small pk">🔑 id: UUID (PK)</text>
+  <text x="70" y="560" class="small fk">🔗 verification_session_id: UUID (FK)</text>
+  <text x="70" y="580" class="small fk">🔗 employment_id: UUID (FK, nullable)</text>
+  <text x="70" y="600" class="small">contact_type: ENUM</text>
+  <text x="90" y="620" class="tiny">HR_VERIFICATION</text>
+  <text x="90" y="635" class="tiny">REFERENCE_CHECK</text>
+  <text x="90" y="650" class="tiny">EDUCATION_VERIFICATION</text>
+  <text x="70" y="670" class="small">contact_method: ENUM (PHONE/EMAIL/FAX)</text>
+  <text x="70" y="690" class="small">contact_name: VARCHAR(255)</text>
+  <text x="70" y="710" class="small">contact_phone: VARCHAR(50)</text>
+  <text x="70" y="730" class="small">contact_email: VARCHAR(255)</text>
+  <text x="70" y="750" class="small">relationship: VARCHAR(100)</text>
+  <text x="70" y="770" class="small">transcript_url: TEXT</text>
+  <text x="70" y="790" class="small">outcome: ENUM (SUCCESS/FAILED/NO_ANSWER)</text>
+  <text x="70" y="810" class="small">created_at: DATETIME</text>
+
+  <!-- TABLE: FraudFlags -->
+  <rect x="500" y="480" width="400" height="340" class="table" rx="5"/>
+  <rect x="500" y="480" width="400" height="40" class="header" rx="5"/>
+  <text x="700" y="505" text-anchor="middle" class="label" fill="white">fraud_flags</text>
+  
+  <text x="520" y="540" class="small pk">🔑 id: UUID (PK)</text>
+  <text x="520" y="560" class="small fk">🔗 verification_session_id: UUID (FK)</text>
+  <text x="520" y="580" class="small">flag_type: ENUM</text>
+  <text x="540" y="600" class="tiny">TIMELINE_CONFLICT</text>
+  <text x="540" y="615" class="tiny">UNVERIFIED_CREDENTIAL</text>
+  <text x="540" y="630" class="tiny">TECHNICAL_MISMATCH</text>
+  <text x="540" y="645" class="tiny">DOCUMENT_ANOMALY</text>
+  <text x="540" y="660" class="tiny">REFERENCE_FRAUD</text>
+  <text x="540" y="675" class="tiny">EMPLOYMENT_GAP</text>
+  <text x="520" y="695" class="small">severity: ENUM (CRITICAL/MODERATE/MINOR)</text>
+  <text x="520" y="715" class="small">description: TEXT</text>
+  <text x="520" y="735" class="small">evidence: JSON</text>
+  <text x="520" y="755" class="small">resolved: BOOLEAN</text>
+  <text x="520" y="775" class="small">resolution_notes: TEXT</text>
+  <text x="520" y="795" class="small">created_at: DATETIME</text>
+  <text x="520" y="815" class="small">resolved_at: DATETIME</text>
+
+  <!-- TABLE: GitHubAnalysisRecords -->
+  <rect x="950" y="480" width="400" height="340" class="table" rx="5"/>
+  <rect x="950" y="480" width="400" height="40" class="header" rx="5"/>
+  <text x="1150" y="505" text-anchor="middle" class="label" fill="white">github_analysis_records</text>
+  
+  <text x="970" y="540" class="small pk">🔑 id: UUID (PK)</text>
+  <text x="970" y="560" class="small fk">🔗 verification_session_id: UUID (FK)</text>
+  <text x="970" y="580" class="small">username: VARCHAR(100)</text>
+  <text x="970" y="600" class="small">profile_found: BOOLEAN</text>
+  <text x="970" y="620" class="small">total_repos: INTEGER</text>
+  <text x="970" y="640" class="small">owned_repos: INTEGER</text>
+  <text x="970" y="660" class="small">total_commits: INTEGER</text>
+  <text x="970" y="680" class="small">commit_frequency: DECIMAL(5,2)</text>
+  <text x="970" y="700" class="small">languages: JSON</text>
+  <text x="970" y="720" class="small">contribution_timeline: JSON</text>
+  <text x="970" y="740" class="small">code_quality_score: INTEGER (1-10)</text>
+  <text x="970" y="760" class="small">skills_match: JSON</text>
+  <text x="970" y="780" class="small">mismatches: JSON</text>
+  <text x="970" y="800" class="small">profile_url: TEXT</text>
+  <text x="970" y="820" class="small">created_at: DATETIME</text>
+
+  <!-- TABLE: VerificationReports -->
+  <rect x="1400" y="480" width="350" height="340" class="table" rx="5"/>
+  <rect x="1400" y="480" width="350" height="40" class="header" rx="5"/>
+  <text x="1575" y="505" text-anchor="middle" class="label" fill="white">verification_reports</text>
+  
+  <text x="1420" y="540" class="small pk">🔑 id: UUID (PK)</text>
+  <text x="1420" y="560" class="small fk">🔗 verification_session_id: UUID (FK)</text>
+  <text x="1420" y="580" class="small">risk_score: ENUM</text>
+  <text x="1420" y="600" class="small">summary_narrative: TEXT</text>
+  <text x="1420" y="620" class="small">employment_narratives: JSON</text>
+  <text x="1420" y="640" class="small">education_summary: TEXT</text>
+  <text x="1420" y="660" class="small">technical_validation: JSON</text>
+  <text x="1420" y="680" class="small">fraud_summary: TEXT</text>
+  <text x="1420" y="700" class="small">interview_questions: JSON</text>
+  <text x="1420" y="720" class="small">recommendations: TEXT</text>
+  <text x="1420" y="740" class="small">report_pdf_url: TEXT</text>
+  <text x="1420" y="760" class="small">report_json: JSON</text>
+  <text x="1420" y="780" class="small">generated_at: DATETIME</text>
+  <text x="1420" y="800" class="small">generated_by: VARCHAR(100)</text>
+  <text x="1420" y="820" class="small">version: INTEGER</text>
+
+  <!-- TABLE: Documents -->
+  <rect x="50" y="870" width="400" height="300" class="table" rx="5"/>
+  <rect x="50" y="870" width="400" height="40" class="header" rx="5"/>
+  <text x="250" y="895" text-anchor="middle" class="label" fill="white">documents</text>
+  
+  <text x="70" y="930" class="small pk">🔑 id: UUID (PK)</text>
+  <text x="70" y="950" class="small fk">🔗 verification_session_id: UUID (FK)</text>
+  <text x="70" y="970" class="small">document_type: ENUM</text>
+  <text x="90" y="990" class="tiny">CV / PAYSTUB / DIPLOMA</text>
+  <text x="90" y="1005" class="tiny">OFFER_LETTER / TRANSCRIPT</text>
+  <text x="70" y="1025" class="small">filename: VARCHAR(255)</text>
+  <text x="70" y="1045" class="small">file_path: TEXT</text>
+  <text x="70" y="1065" class="small">file_size: INTEGER</text>
+  <text x="70" y="1085" class="small">mime_type: VARCHAR(100)</text>
+  <text x="70" y="1105" class="small">extracted_data: JSON</text>
+  <text x="70" y="1125" class="small">confidence_score: DECIMAL(3,2)</text>
+  <text x="70" y="1145" class="small">uploaded_at: DATETIME</text>
+  <text x="70" y="1165" class="small">processed_at: DATETIME</text>
+
+  <!-- TABLE: AuditLogs -->
+  <rect x="500" y="870" width="400" height="280" class="table" rx="5"/>
+  <rect x="500" y="870" width="400" height="40" class="header" rx="5"/>
+  <text x="700" y="895" text-anchor="middle" class="label" fill="white">audit_logs</text>
+  
+  <text x="520" y="930" class="small pk">🔑 id: UUID (PK)</text>
+  <text x="520" y="950" class="small fk">🔗 verification_session_id: UUID (FK)</text>
+  <text x="520" y="970" class="small">action: VARCHAR(100)</text>
+  <text x="520" y="990" class="small">actor: VARCHAR(255)</text>
+  <text x="520" y="1010" class="small">actor_type: ENUM (SYSTEM/USER/API)</text>
+  <text x="520" y="1030" class="small">details: JSON</text>
+  <text x="520" y="1050" class="small">ip_address: VARCHAR(50)</text>
+  <text x="520" y="1070" class="small">user_agent: TEXT</text>
+  <text x="520" y="1090" class="small">timestamp: DATETIME</text>
+  <text x="520" y="1110" class="small">success: BOOLEAN</text>
+  <text x="520" y="1130" class="small">error_message: TEXT</text>
+
+  <!-- RELATIONSHIPS -->
+  <path d="M 400 260 L 450 260" class="relation"/>
+  <text x="425" y="255" class="tiny">1:N</text>
+  
+  <path d="M 650 460 L 650 480" class="relation"/>
+  <text x="660" y="470" class="tiny">1:N</text>
+  
+  <path d="M 850 260 L 900 260" class="relation"/>
+  <text x="875" y="255" class="tiny">1:N</text>
+  
+  <path d="M 850 300 L 1350 300" class="relation"/>
+  <text x="1100" y="295" class="tiny">1:N</text>
+  
+  <path d="M 250 400 L 250 480" class="relation"/>
+  <text x="260" y="440" class="tiny">1:N</text>
+  
+  <path d="M 700 460 L 700 480" class="relation"/>
+  <text x="710" y="470" class="tiny">1:N</text>
+  
+  <path d="M 1100 440 L 1150 480" class="relation"/>
+  <text x="1125" y="460" class="tiny">1:1</text>
+  
+  <path d="M 850 380 L 1575 480" class="relation"/>
+  <text x="1200" y="430" class="tiny">1:1</text>
+  
+  <path d="M 250 400 L 250 870" class="relation"/>
+  <text x="260" y="635" class="tiny">1:N</text>
+  
+  <path d="M 700 460 L 700 870" class="relation"/>
+  <text x="710" y="665" class="tiny">1:N</text>
+
+  <!-- INDEXES -->
+  <rect x="50" y="1220" width="1700" height="200" class="table" rx="10"/>
+  <text x="70" y="1250" class="subtitle">Indexes &amp; Performance</text>
+  
+  <text x="100" y="1280" class="small">Primary Indexes (Automatic):</text>
+  <text x="120" y="1305" class="tiny">• All id columns (UUID) - Clustered index</text>
+  
+  <text x="100" y="1335" class="small">Foreign Key Indexes:</text>
+  <text x="120" y="1360" class="tiny">• verification_sessions.candidate_id</text>
+  <text x="120" y="1380" class="tiny">• employments.verification_session_id</text>
+  <text x="120" y="1400" class="tiny">• All other FK columns</text>
+  
+  <text x="900" y="1280" class="small">Query Optimization Indexes:</text>
+  <text x="920" y="1305" class="tiny">• candidates.email (UNIQUE)</text>
+  <text x="920" y="1325" class="tiny">• verification_sessions.status</text>
+  <text x="920" y="1345" class="tiny">• verification_sessions.created_at</text>
+  <text x="920" y="1365" class="tiny">• contact_records.contact_type</text>
+  <text x="920" y="1385" class="tiny">• fraud_flags.severity</text>
+  <text x="920" y="1405" class="tiny">• audit_logs.timestamp</text>
+
+  <!-- DATA TYPES -->
+  <rect x="50" y="1460" width="1700" height="280" class="table" rx="10"/>
+  <text x="70" y="1490" class="subtitle">Data Types &amp; Constraints</text>
+  
+  <rect x="80" y="1510" width="520" height="200" class="table" rx="5"/>
+  <text x="100" y="1535" class="label">Standard Types:</text>
+  <text x="120" y="1560" class="small">• UUID: 36-character string (RFC 4122)</text>
+  <text x="120" y="1580" class="small">• VARCHAR: Variable-length string</text>
+  <text x="120" y="1600" class="small">• TEXT: Unlimited length text</text>
+  <text x="120" y="1620" class="small">• INTEGER: 32-bit signed integer</text>
+  <text x="120" y="1640" class="small">• DECIMAL: Fixed-point decimal</text>
+  <text x="120" y="1660" class="small">• BOOLEAN: True/False</text>
+  <text x="120" y="1680" class="small">• DATETIME: ISO 8601 format</text>
+  <text x="120" y="1700" class="small">• DATE: YYYY-MM-DD format</text>
+  
+  <rect x="640" y="1510" width="520" height="200" class="table" rx="5"/>
+  <text x="660" y="1535" class="label">JSON Fields:</text>
+  <text x="680" y="1560" class="small">• hr_contact_info: {phone, email, name}</text>
+  <text x="680" y="1580" class="small">• evidence: Fraud flag supporting data</text>
+  <text x="680" y="1600" class="small">• languages: GitHub language statistics</text>
+  <text x="680" y="1620" class="small">• skills_match: Claimed vs actual skills</text>
+  <text x="680" y="1640" class="small">• employment_narratives: Report sections</text>
+  <text x="680" y="1660" class="small">• interview_questions: Generated questions</text>
+  <text x="680" y="1680" class="small">• extracted_data: Document OCR results</text>
+  <text x="680" y="1700" class="small">• details: Audit log metadata</text>
+  
+  <rect x="1200" y="1510" width="520" height="200" class="table" rx="5"/>
+  <text x="1220" y="1535" class="label">Constraints:</text>
+  <text x="1240" y="1560" class="small">• NOT NULL: All id, created_at fields</text>
+  <text x="1240" y="1580" class="small">• UNIQUE: candidates.email</text>
+  <text x="1240" y="1600" class="small">• CHECK: risk_score IN (GREEN, YELLOW, RED)</text>
+  <text x="1240" y="1620" class="small">• CHECK: code_quality_score BETWEEN 1 AND 10</text>
+  <text x="1240" y="1640" class="small">• CHECK: confidence_score BETWEEN 0 AND 1</text>
+  <text x="1240" y="1660" class="small">• FOREIGN KEY: ON DELETE CASCADE</text>
+  <text x="1240" y="1680" class="small">• DEFAULT: created_at = CURRENT_TIMESTAMP</text>
+  <text x="1240" y="1700" class="small">• DEFAULT: resolved = FALSE</text>
+
+  <!-- STORAGE -->
+  <rect x="50" y="1780" width="1700" height="180" class="table" rx="10"/>
+  <text x="70" y="1810" class="subtitle">Storage &amp; Backup Strategy</text>
+  
+  <text x="100" y="1840" class="small">Database File:</text>
+  <text x="120" y="1865" class="tiny">• Location: ./instance/verification.db</text>
+  <text x="120" y="1885" class="tiny">• Size: ~10-50 MB for 1000 verifications</text>
+  <text x="120" y="1905" class="tiny">• Backup: Daily snapshots to ./backups/</text>
+  <text x="120" y="1925" class="tiny">• Retention: 30 days rolling backup</text>
+  
+  <text x="900" y="1840" class="small">File Storage:</text>
+  <text x="920" y="1865" class="tiny">• Documents: ./data/documents/{session_id}/</text>
+  <text x="920" y="1885" class="tiny">• Transcripts: ./transcripts/{candidate_name}/</text>
+  <text x="920" y="1905" class="tiny">• Reports: ./reports/{session_id}/</text>
+  <text x="920" y="1925" class="tiny">• Total: ~100-500 MB per 1000 verifications</text>
+
+  <!-- MIGRATION -->
+  <rect x="50" y="2000" width="1700" height="140" class="table" rx="10"/>
+  <text x="70" y="2030" class="subtitle">Migration &amp; Versioning</text>
+  
+  <text x="100" y="2060" class="small">Schema Version: 1.0</text>
+  <text x="100" y="2085" class="small">Migration Tool: SQLAlchemy Alembic (future)</text>
+  <text x="100" y="2110" class="small">Current: Manual schema creation via models.py</text>
+  
+  <text x="900" y="2060" class="small">Future Enhancements:</text>
+  <text x="920" y="2085" class="tiny">• Add full-text search indexes</text>
+  <text x="920" y="2105" class="tiny">• Partition large tables by date</text>
+  <text x="920" y="2125" class="tiny">• Migrate to PostgreSQL for production</text>
+
+  <!-- Footer -->
+  <text x="900" y="2180" text-anchor="middle" class="small" style="fill: #999;">
+    10 Core Tables • Normalized Design • Referential Integrity • JSON Flexibility
+  </text>
+</svg>

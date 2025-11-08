@@ -247,8 +247,8 @@ class CallOrchestrator:
             # Return failed result with error message
             return CallResult(
                 success=False,
-                call_id="",
-                transcript_path="",
+                call_id="failed",
+                transcript_path="none",
                 duration_seconds=0,
                 error_message=error_msg
             )

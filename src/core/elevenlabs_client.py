@@ -82,17 +82,14 @@ class ElevenLabsClient:
             logger.error(error_msg, exc_info=True)
             raise APIConnectionError(error_msg) from e
     
-    def _get_phone_number_id(self, phone_number: str) -> str:
-        """Get the ElevenLabs phone number ID for a Twilio number.
-        
-        Args:
-            phone_number: Twilio phone number in E.164 format
+    def _get_phone_number_id_from_elevenlabs(self) -> str:
+        """Get the first available phone number ID from ElevenLabs account.
         
         Returns:
             str: ElevenLabs phone number ID
         
         Raises:
-            InvalidResponseError: If phone number not found in ElevenLabs
+            InvalidResponseError: If no phone numbers found in ElevenLabs
         """
         # Return cached value if available
         if self._phone_number_id_cache:
@@ -102,18 +99,19 @@ class ElevenLabsClient:
             # List all phone numbers in ElevenLabs account
             phone_numbers = self.client.conversational_ai.phone_numbers.list()
             
-            # Find the matching phone number
-            for pn in phone_numbers:
-                if hasattr(pn, 'phone_number') and pn.phone_number == phone_number:
-                    if hasattr(pn, 'phone_number_id'):
-                        self._phone_number_id_cache = pn.phone_number_id
-                        logger.info(f"Found phone number ID: {self._phone_number_id_cache}")
-                        return self._phone_number_id_cache
+            # Get the first available phone number
+            if phone_numbers and len(phone_numbers) > 0:
+                first_number = phone_numbers[0]
+                if hasattr(first_number, 'phone_number_id'):
+                    self._phone_number_id_cache = first_number.phone_number_id
+                    logger.info(f"Using phone number ID: {self._phone_number_id_cache}")
+                    return self._phone_number_id_cache
             
-            # Phone number not found
+            # No phone numbers found
             error_msg = (
-                f"Phone number {phone_number} not found in ElevenLabs account. "
-                "Please import it via the ElevenLabs dashboard first."
+                "No phone numbers found in ElevenLabs account. "
+                "Please import a Twilio phone number via the ElevenLabs dashboard first. "
+                "Go to: https://elevenlabs.io/app/conversational-ai/phone-numbers"
             )
             logger.error(error_msg)
             raise InvalidResponseError(error_msg)
@@ -130,10 +128,10 @@ class ElevenLabsClient:
         phone_number: str,
         config: ConversationConfig
     ) -> str:
-        """Initiate a phone call using conversational AI via Twilio integration.
+        """Initiate a phone call using ElevenLabs conversational AI.
         
         This method starts a phone conversation with the specified number using
-        the configured ElevenLabs agent through your imported Twilio phone number.
+        the configured ElevenLabs agent directly through their phone calling API.
         
         Args:
             phone_number: Phone number to call in E.164 format (e.g., +1-555-0100)
@@ -158,23 +156,17 @@ class ElevenLabsClient:
             logger.error(error_msg)
             raise ValueError(error_msg)
         
-        # Get Twilio phone number from environment
-        twilio_number = os.getenv('TWILIO_PHONE_NUMBER')
-        if not twilio_number:
-            error_msg = "TWILIO_PHONE_NUMBER must be set in environment variables"
-            logger.error(error_msg)
-            raise ValueError(error_msg)
-        
         logger.info(
-            f"Starting conversation with {phone_number} using agent {config.agent_id} "
-            f"from Twilio number {twilio_number}, max duration: {config.max_duration_seconds}s"
+            f"Starting conversation with {phone_number} using agent {config.agent_id}, "
+            f"max duration: {config.max_duration_seconds}s"
         )
         
         try:
-            # Get the phone number ID from ElevenLabs
-            phone_number_id = self._get_phone_number_id(twilio_number)
+            # Get the phone number ID from ElevenLabs (your imported Twilio number)
+            # You need to import a Twilio phone number in ElevenLabs dashboard first
+            phone_number_id = self._get_phone_number_id_from_elevenlabs()
             
-            # Initiate outbound call using the Twilio integration
+            # Initiate outbound call using ElevenLabs Twilio integration
             response = self.client.conversational_ai.twilio.outbound_call(
                 agent_id=config.agent_id,
                 agent_phone_number_id=phone_number_id,
@@ -187,6 +179,8 @@ class ElevenLabsClient:
                 conversation_id = response.conversation_id
             elif hasattr(response, 'call_id'):
                 conversation_id = response.call_id
+            elif hasattr(response, 'id'):
+                conversation_id = response.id
             
             if not conversation_id:
                 # Log response for debugging
@@ -272,10 +266,15 @@ class ElevenLabsClient:
             
             # Extract transcript - it's a list of message objects
             raw_transcript = ""
+            
+            # Log the call object structure for debugging
+            logger.debug(f"Call object attributes: {dir(call)}")
+            
             if hasattr(call, 'transcript') and call.transcript:
                 # Check if transcript is a list or string
                 if isinstance(call.transcript, list):
                     raw_transcript = self._build_transcript_from_messages(call.transcript)
+                    logger.info(f"Built transcript from {len(call.transcript)} messages")
                 elif isinstance(call.transcript, str):
                     raw_transcript = call.transcript
                 else:
@@ -298,8 +297,21 @@ class ElevenLabsClient:
                 getattr(call, 'end_time', None) or getattr(call, 'ended_at', None)
             )
             
-            # Calculate duration
-            duration = (end_time - start_time).total_seconds()
+            # Calculate duration - try to get from API first, then calculate
+            duration = 0
+            if hasattr(call, 'duration_seconds'):
+                duration = call.duration_seconds
+            elif hasattr(call, 'duration'):
+                duration = call.duration
+            else:
+                # Calculate from timestamps
+                duration = (end_time - start_time).total_seconds()
+            
+            # Log timing info for debugging
+            logger.debug(
+                f"Call timing - Start: {start_time}, End: {end_time}, "
+                f"Duration: {duration}s, Has duration field: {hasattr(call, 'duration_seconds')}"
+            )
             logger.info(
                 f"Retrieved transcript for call {conversation_id}. "
                 f"Duration: {duration:.1f}s, Status: {status}"

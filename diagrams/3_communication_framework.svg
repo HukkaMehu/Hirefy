@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1600" style="background-color: white;">
+  <defs>
+    <style>
+      .title { font: bold 32px sans-serif; fill: #1a1a1a; }
+      .subtitle { font: bold 20px sans-serif; fill: #333; }
+      .label { font: 15px sans-serif; fill: #1a1a1a; }
+      .small { font: 13px sans-serif; fill: #555; }
+      .tiny { font: 11px sans-serif; fill: #666; }
+      .channel { fill: #e8f5e9; stroke: #388e3c; stroke-width: 3; }
+      .protocol { fill: #fff3e0; stroke: #f57c00; stroke-width: 2; }
+      .flow { fill: #e3f2fd; stroke: #1976d2; stroke-width: 2; }
+      .arrow { stroke: #424242; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#424242" />
+    </marker>
+  </defs>
+
+  <text x="900" y="40" text-anchor="middle" class="title">Communication Framework</text>
+  <text x="900" y="70" text-anchor="middle" class="small">Multi-Channel Verification Architecture</text>
+
+  <!-- CHANNEL 1: PHONE CALLS -->
+  <rect x="50" y="110" width="800" height="420" class="channel" rx="10"/>
+  <text x="70" y="145" class="subtitle">Channel 1: Phone Calls (ElevenLabs)</text>
+  
+  <rect x="80" y="165" width="740" height="80" class="protocol" rx="5"/>
+  <text x="100" y="190" class="label">Protocol Specifications:</text>
+  <text x="120" y="215" class="small">• Transport: VoIP over HTTPS</text>
+  <text x="120" y="235" class="small">• Format: E.164 phone numbers (+1-555-0100)</text>
+  
+  <rect x="80" y="260" width="740" height="100" class="protocol" rx="5"/>
+  <text x="100" y="285" class="label">Call Flow:</text>
+  <text x="120" y="310" class="small">1. Initiate → POST /conversational-ai/conversations</text>
+  <text x="120" y="330" class="small">2. Monitor → Poll conversation status every 5 seconds</text>
+  <text x="120" y="350" class="small">3. Complete → GET /conversational-ai/conversations/{id}/transcript</text>
+  
+  <rect x="80" y="375" width="740" height="140" class="flow" rx="5"/>
+  <text x="100" y="400" class="label">Error Handling:</text>
+  <text x="120" y="425" class="small">• No Answer: Retry after 2 hours, max 3 attempts</text>
+  <text x="120" y="445" class="small">• Busy: Retry after 30 minutes</text>
+  <text x="120" y="465" class="small">• Failed: Fall back to email channel</text>
+  <text x="120" y="485" class="small">• Timeout: 10 minutes max, save partial transcript</text>
+  <text x="120" y="505" class="small">• Stuck in "initiated": Fail after 60 seconds</text>
+
+  <!-- CHANNEL 2: EMAIL -->
+  <rect x="900" y="110" width="850" height="420" class="channel" rx="10"/>
+  <text x="920" y="145" class="subtitle">Channel 2: Email (SMTP)</text>
+  
+  <rect x="930" y="165" width="790" height="80" class="protocol" rx="5"/>
+  <text x="950" y="190" class="label">Protocol Specifications:</text>
+  <text x="970" y="215" class="small">• Protocol: SMTP with STARTTLS (Port 587)</text>
+  <text x="970" y="235" class="small">• Providers: Gmail, Outlook, Office 365</text>
+  
+  <rect x="930" y="260" width="790" height="100" class="protocol" rx="5"/>
+  <text x="950" y="285" class="label">Email Flow:</text>
+  <text x="970" y="310" class="small">1. Compose → Load template, substitute variables</text>
+  <text x="970" y="330" class="small">2. Send → SMTP connection with authentication</text>
+  <text x="970" y="350" class="small">3. Log → Save to emails.log for audit trail</text>
+  
+  <rect x="930" y="375" width="790" height="140" class="flow" rx="5"/>
+  <text x="950" y="400" class="label">Error Handling:</text>
+  <text x="970" y="425" class="small">• Auth Failed: Check credentials, regenerate app password</text>
+  <text x="970" y="445" class="small">• Connection Refused: Verify SMTP host/port, check firewall</text>
+  <text x="970" y="465" class="small">• Invalid Email: Validate format, request correction</text>
+  <text x="970" y="485" class="small">• Rate Limit: Queue and retry after cooldown</text>
+  <text x="970" y="505" class="small">• Bounce: Mark as undeliverable, try alternate contact</text>
+
+  <!-- MULTI-CHANNEL STRATEGY -->
+  <rect x="50" y="570" width="1700" height="280" class="flow" rx="10"/>
+  <text x="70" y="605" class="subtitle">Multi-Channel Orchestration Strategy</text>
+  
+  <rect x="80" y="625" width="800" height="200" class="protocol" rx="5"/>
+  <text x="100" y="650" class="label">Parallel Execution:</text>
+  <text x="120" y="675" class="small">1. Initiate both phone and email simultaneously</text>
+  <text x="120" y="695" class="small">2. First response wins → Cancel other channel</text>
+  <text x="120" y="715" class="small">3. Track response rates by company/contact</text>
+  <text x="120" y="735" class="small">4. Learn preferred channels over time</text>
+  <text x="120" y="755" class="small">5. Optimize future contacts based on history</text>
+  <text x="120" y="775" class="small">6. Respect opt-out preferences</text>
+  <text x="120" y="795" class="small">7. Maintain compliance with TCPA/CAN-SPAM</text>
+  
+  <rect x="920" y="625" width="800" height="200" class="protocol" rx="5"/>
+  <text x="940" y="650" class="label">Fallback Chain:</text>
+  <text x="960" y="675" class="small">Primary: Phone Call (fastest, highest quality)</text>
+  <text x="960" y="695" class="small">↓ (if no answer after 3 attempts)</text>
+  <text x="960" y="715" class="small">Secondary: Email (slower, but reliable)</text>
+  <text x="960" y="735" class="small">↓ (if no response after 48 hours)</text>
+  <text x="960" y="755" class="small">Tertiary: Mark as unverifiable</text>
+  <text x="960" y="775" class="small">↓</text>
+  <text x="960" y="795" class="small">Generate partial report with flag</text>
+
+  <!-- API COMMUNICATION -->
+  <rect x="50" y="890" width="1700" height="320" class="flow" rx="10"/>
+  <text x="70" y="925" class="subtitle">API Communication Patterns</text>
+  
+  <rect x="80" y="945" width="520" height="240" class="protocol" rx="5"/>
+  <text x="100" y="970" class="label">REST API (Flask):</text>
+  <text x="120" y="995" class="small">POST /api/verifications</text>
+  <text x="140" y="1015" class="tiny">Create new verification session</text>
+  <text x="120" y="1040" class="small">GET /api/verifications/{id}</text>
+  <text x="140" y="1060" class="tiny">Get verification status and report</text>
+  <text x="120" y="1085" class="small">POST /api/chat/message</text>
+  <text x="140" y="1105" class="tiny">Send message in document collection</text>
+  <text x="120" y="1130" class="small">POST /api/documents/upload</text>
+  <text x="140" y="1150" class="tiny">Upload candidate document</text>
+  <text x="120" y="1175" class="small">GET /api/transcripts/{id}</text>
+  <text x="140" y="1195" class="tiny">Retrieve call transcript</text>
+  
+  <rect x="640" y="945" width="520" height="240" class="protocol" rx="5"/>
+  <text x="660" y="970" class="label">WebSocket (Real-time Updates):</text>
+  <text x="680" y="995" class="small">Connection: ws://localhost:5000/ws</text>
+  <text x="680" y="1020" class="small">Events:</text>
+  <text x="700" y="1045" class="tiny">• verification.status_changed</text>
+  <text x="700" y="1065" class="tiny">• verification.task_completed</text>
+  <text x="700" y="1085" class="tiny">• verification.report_ready</text>
+  <text x="700" y="1105" class="tiny">• chat.message_received</text>
+  <text x="700" y="1125" class="tiny">• document.processed</text>
+  <text x="680" y="1155" class="small">Heartbeat: Every 30 seconds</text>
+  <text x="680" y="1175" class="small">Reconnect: Exponential backoff</text>
+  
+  <rect x="1200" y="945" width="520" height="240" class="protocol" rx="5"/>
+  <text x="1220" y="970" class="label">Webhooks (ATS Integration):</text>
+  <text x="1240" y="995" class="small">Outbound Events:</text>
+  <text x="1260" y="1020" class="tiny">• verification.initiated</text>
+  <text x="1260" y="1040" class="tiny">• verification.in_progress</text>
+  <text x="1260" y="1060" class="tiny">• verification.completed</text>
+  <text x="1260" y="1080" class="tiny">• verification.failed</text>
+  <text x="1240" y="1110" class="small">Payload: JSON with full report</text>
+  <text x="1240" y="1130" class="small">Retry: 3 attempts with backoff</text>
+  <text x="1240" y="1150" class="small">Security: HMAC signature</text>
+  <text x="1240" y="1170" class="small">Timeout: 30 seconds</text>
+
+  <!-- DATA FORMATS -->
+  <rect x="50" y="1250" width="1700" height="280" class="flow" rx="10"/>
+  <text x="70" y="1285" class="subtitle">Data Formats &amp; Serialization</text>
+  
+  <rect x="80" y="1305" width="520" height="200" class="protocol" rx="5"/>
+  <text x="100" y="1330" class="label">JSON Schema (API):</text>
+  <text x="120" y="1355" class="tiny">{</text>
+  <text x="140" y="1375" class="tiny">"verification_id": "uuid",</text>
+  <text x="140" y="1395" class="tiny">"candidate_name": "string",</text>
+  <text x="140" y="1415" class="tiny">"status": "enum",</text>
+  <text x="140" y="1435" class="tiny">"risk_score": "GREEN|YELLOW|RED",</text>
+  <text x="140" y="1455" class="tiny">"created_at": "ISO8601",</text>
+  <text x="140" y="1475" class="tiny">"report": { ... }</text>
+  <text x="120" y="1495" class="tiny">}</text>
+  
+  <rect x="640" y="1305" width="520" height="200" class="protocol" rx="5"/>
+  <text x="660" y="1330" class="label">File Formats:</text>
+  <text x="680" y="1355" class="small">Documents:</text>
+  <text x="700" y="1380" class="tiny">• PDF (preferred)</text>
+  <text x="700" y="1400" class="tiny">• JPG/PNG (images)</text>
+  <text x="700" y="1420" class="tiny">• HEIC (mobile photos)</text>
+  <text x="680" y="1450" class="small">Reports:</text>
+  <text x="700" y="1475" class="tiny">• PDF (human-readable)</text>
+  <text x="700" y="1495" class="tiny">• JSON (machine-readable)</text>
+  
+  <rect x="1200" y="1305" width="520" height="200" class="protocol" rx="5"/>
+  <text x="1220" y="1330" class="label">Transcripts:</text>
+  <text x="1240" y="1355" class="small">Format: Plain text with metadata</text>
+  <text x="1240" y="1380" class="tiny">=== CALL METADATA ===</text>
+  <text x="1240" y="1400" class="tiny">Candidate: John Doe</text>
+  <text x="1240" y="1420" class="tiny">Duration: 5m 30s</text>
+  <text x="1240" y="1440" class="tiny">--- CONVERSATION ---</text>
+  <text x="1240" y="1460" class="tiny">[Agent]: Hello...</text>
+  <text x="1240" y="1480" class="tiny">[HR]: Yes, how can I help?</text>
+
+  <!-- Footer -->
+  <text x="900" y="1580" text-anchor="middle" class="small" style="fill: #999;">
+    Multi-Channel • Real-time • Fault-Tolerant • Compliant
+  </text>
+</svg>

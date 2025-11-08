@@ -19,6 +19,7 @@ ENV/
 .idea/
 *.swp
 *.swo
+*.kiro
 *~
 
 # OS files
@@ -30,6 +31,12 @@ Thumbs.db
 
 # Transcripts (may contain sensitive conversation data)
 transcripts/
+
+# Database and data files
+data/
+*.db
+*.sqlite
+*.sqlite3
 
 # Distribution / packaging
 build/

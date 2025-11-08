@@ -184,6 +184,9 @@ class HRVerificationHandler:
         """
         start_time = time.time()
         elapsed = 0
+        initiated_timeout = 60  # If stuck in "initiated" for 60s, consider it failed
+        initiated_start = time.time()
+        last_status = None
         
         while elapsed < max_wait_seconds:
             try:
@@ -193,18 +196,61 @@ class HRVerificationHandler:
                     participant_phone=participant_phone
                 )
                 
+                # Get the call status from the client
+                try:
+                    call = self.client.client.conversational_ai.conversations.get(
+                        conversation_id=conversation_id
+                    )
+                    current_status = getattr(call, 'status', 'unknown')
+                except:
+                    current_status = 'unknown'
+                
+                # Track if status changed
+                if current_status != last_status:
+                    logger.info(f"Call status changed: {last_status} -> {current_status}")
+                    last_status = current_status
+                    # Reset initiated timeout if status changed
+                    if current_status != 'initiated':
+                        initiated_start = time.time()
+                
+                # Check if stuck in "initiated" status for too long
+                if current_status == 'initiated':
+                    time_in_initiated = time.time() - initiated_start
+                    if time_in_initiated > initiated_timeout:
+                        logger.error(
+                            f"Call stuck in 'initiated' status for {time_in_initiated:.0f}s. "
+                            "Likely the call was not answered or failed to connect."
+                        )
+                        raise TimeoutError(
+                            f"Call failed to connect after {time_in_initiated:.0f}s in 'initiated' status"
+                        )
+                
                 # Check if call has completed (has actual content and duration)
                 if transcript.duration_seconds > 0 or transcript.raw_transcript:
                     logger.info(f"Call completed after {elapsed}s")
                     return transcript
                 
+                # Check for terminal failure statuses
+                if current_status in ['failed', 'no_answer', 'busy', 'cancelled', 'rejected']:
+                    logger.error(f"Call ended with status: {current_status}")
+                    raise Exception(f"Call failed with status: {current_status}")
+                
                 # Call still in progress, wait before next check
-                logger.info(f"Call in progress... ({elapsed}s elapsed)")
+                logger.info(f"Call in progress... ({elapsed}s elapsed, status: {current_status})")
                 time.sleep(poll_interval)
                 elapsed = int(time.time() - start_time)
                 
+            except TimeoutError:
+                # Re-raise timeout errors
+                raise
             except Exception as e:
-                # If we get an error, wait a bit and try again
+                # If we get an error, check if it's a terminal error
+                error_str = str(e).lower()
+                if any(term in error_str for term in ['failed', 'no answer', 'busy', 'rejected', 'cancelled']):
+                    logger.error(f"Call failed: {str(e)}")
+                    raise
+                
+                # Otherwise wait a bit and try again
                 logger.warning(f"Error checking call status: {str(e)}, retrying...")
                 time.sleep(poll_interval)
                 elapsed = int(time.time() - start_time)

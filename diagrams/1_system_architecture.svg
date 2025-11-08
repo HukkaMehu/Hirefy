@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1400" style="background-color: white;">
+  <defs>
+    <style>
+      .title { font: bold 32px sans-serif; fill: #1a1a1a; }
+      .subtitle { font: bold 20px sans-serif; fill: #333; }
+      .label { font: 15px sans-serif; fill: #1a1a1a; }
+      .small { font: 13px sans-serif; fill: #555; }
+      .tiny { font: 11px sans-serif; fill: #666; }
+      .layer { fill: #e3f2fd; stroke: #1976d2; stroke-width: 3; }
+      .component { fill: #fff3e0; stroke: #f57c00; stroke-width: 2; }
+      .database { fill: #f3e5f5; stroke: #7b1fa2; stroke-width: 2; }
+      .external { fill: #e8f5e9; stroke: #388e3c; stroke-width: 2; }
+      .arrow { stroke: #424242; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .arrow-bi { stroke: #1976d2; stroke-width: 2; fill: none; marker-end: url(#arrowhead-bi); marker-start: url(#arrowhead-bi-start); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#424242" />
+    </marker>
+    <marker id="arrowhead-bi" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#1976d2" />
+    </marker>
+    <marker id="arrowhead-bi-start" markerWidth="10" markerHeight="10" refX="1" refY="3" orient="auto">
+      <polygon points="10 0, 0 3, 10 6" fill="#1976d2" />
+    </marker>
+  </defs>
+
+  <text x="900" y="40" text-anchor="middle" class="title">System Architecture - Layered View</text>
+  <text x="900" y="70" text-anchor="middle" class="small">AI-Powered Recruitment Verification Platform</text>
+
+  <!-- LAYER 1: PRESENTATION -->
+  <rect x="50" y="100" width="1700" height="180" class="layer" rx="10"/>
+  <text x="70" y="130" class="subtitle">Layer 1: Presentation Layer</text>
+  
+  <rect x="100" y="150" width="350" height="100" class="component" rx="5"/>
+  <text x="275" y="180" text-anchor="middle" class="label">Candidate Portal</text>
+  <text x="275" y="200" text-anchor="middle" class="small">React + TypeScript</text>
+  <text x="275" y="220" text-anchor="middle" class="tiny">• Document Upload UI</text>
+  <text x="275" y="235" text-anchor="middle" class="tiny">• Chat Interface</text>
+  
+  <rect x="500" y="150" width="350" height="100" class="component" rx="5"/>
+  <text x="675" y="180" text-anchor="middle" class="label">HR Dashboard</text>
+  <text x="675" y="200" text-anchor="middle" class="small">React + TypeScript</text>
+  <text x="675" y="220" text-anchor="middle" class="tiny">• Verification Management</text>
+  <text x="675" y="235" text-anchor="middle" class="tiny">• Report Viewing</text>
+  
+  <rect x="900" y="150" width="350" height="100" class="component" rx="5"/>
+  <text x="1075" y="180" text-anchor="middle" class="label">Mobile Web</text>
+  <text x="1075" y="200" text-anchor="middle" class="small">Responsive Design</text>
+  <text x="1075" y="220" text-anchor="middle" class="tiny">• Tailwind CSS</text>
+  <text x="1075" y="235" text-anchor="middle" class="tiny">• Mobile-First</text>
+  
+  <rect x="1300" y="150" width="350" height="100" class="component" rx="5"/>
+  <text x="1475" y="180" text-anchor="middle" class="label">ATS Integration</text>
+  <text x="1475" y="200" text-anchor="middle" class="small">REST API Client</text>
+  <text x="1475" y="220" text-anchor="middle" class="tiny">• Greenhouse</text>
+  <text x="1475" y="235" text-anchor="middle" class="tiny">• Lever / Workday</text>
+
+  <!-- LAYER 2: API GATEWAY -->
+  <rect x="50" y="320" width="1700" height="150" class="layer" rx="10"/>
+  <text x="70" y="350" class="subtitle">Layer 2: API Gateway Layer</text>
+  
+  <rect x="100" y="380" width="1600" height="60" class="component" rx="5"/>
+  <text x="900" y="405" text-anchor="middle" class="label">Flask REST API Gateway</text>
+  <text x="300" y="425" text-anchor="middle" class="tiny">Authentication</text>
+  <text x="500" y="425" text-anchor="middle" class="tiny">CORS</text>
+  <text x="700" y="425" text-anchor="middle" class="tiny">Rate Limiting</text>
+  <text x="900" y="425" text-anchor="middle" class="tiny">Request Validation</text>
+  <text x="1100" y="425" text-anchor="middle" class="tiny">Error Handling</text>
+  <text x="1300" y="425" text-anchor="middle" class="tiny">Logging</text>
+  <text x="1500" y="425" text-anchor="middle" class="tiny">Monitoring</text>
+
+  <!-- Arrows from Presentation to API -->
+  <path d="M 275 250 L 275 380" class="arrow-bi"/>
+  <path d="M 675 250 L 675 380" class="arrow-bi"/>
+  <path d="M 1075 250 L 1075 380" class="arrow-bi"/>
+  <path d="M 1475 250 L 1475 380" class="arrow-bi"/>
+
+  <!-- LAYER 3: APPLICATION SERVICES -->
+  <rect x="50" y="510" width="1700" height="280" class="layer" rx="10"/>
+  <text x="70" y="540" class="subtitle">Layer 3: Application Services Layer</text>
+  
+  <rect x="100" y="560" width="380" height="200" class="component" rx="5"/>
+  <text x="290" y="590" text-anchor="middle" class="label">Document Collection</text>
+  <text x="290" y="610" text-anchor="middle" class="label">Orchestrator</text>
+  <text x="290" y="640" text-anchor="middle" class="tiny">• Conversational AI Flow</text>
+  <text x="290" y="660" text-anchor="middle" class="tiny">• Document Processing</text>
+  <text x="290" y="680" text-anchor="middle" class="tiny">• Consistency Validation</text>
+  <text x="290" y="700" text-anchor="middle" class="tiny">• Session Management</text>
+  <text x="290" y="720" text-anchor="middle" class="tiny">• Conflict Resolution</text>
+  <text x="290" y="740" text-anchor="middle" class="small">Python + OpenAI GPT-4</text>
+  
+  <rect x="520" y="560" width="380" height="200" class="component" rx="5"/>
+  <text x="710" y="590" text-anchor="middle" class="label">Verification</text>
+  <text x="710" y="610" text-anchor="middle" class="label">Orchestrator</text>
+  <text x="710" y="640" text-anchor="middle" class="tiny">• Task Management</text>
+  <text x="710" y="660" text-anchor="middle" class="tiny">• Parallel Execution</text>
+  <text x="710" y="680" text-anchor="middle" class="tiny">• Multi-Channel Contact</text>
+  <text x="710" y="700" text-anchor="middle" class="tiny">• Status Tracking</text>
+  <text x="710" y="720" text-anchor="middle" class="tiny">• Timeout Handling</text>
+  <text x="710" y="740" text-anchor="middle" class="small">Python Threading</text>
+  
+  <rect x="940" y="560" width="380" height="200" class="component" rx="5"/>
+  <text x="1130" y="590" text-anchor="middle" class="label">Fraud Detection</text>
+  <text x="1130" y="610" text-anchor="middle" class="label">Engine</text>
+  <text x="1130" y="640" text-anchor="middle" class="tiny">• Timeline Analysis</text>
+  <text x="1130" y="660" text-anchor="middle" class="tiny">• Claim Validation</text>
+  <text x="1130" y="680" text-anchor="middle" class="tiny">• Pattern Matching</text>
+  <text x="1130" y="700" text-anchor="middle" class="tiny">• Risk Scoring</text>
+  <text x="1130" y="720" text-anchor="middle" class="tiny">• Red Flag Detection</text>
+  <text x="1130" y="740" text-anchor="middle" class="small">Python + AI Analysis</text>
+  
+  <rect x="1360" y="560" width="380" height="200" class="component" rx="5"/>
+  <text x="1550" y="590" text-anchor="middle" class="label">Report Generation</text>
+  <text x="1550" y="610" text-anchor="middle" class="label">Service</text>
+  <text x="1550" y="640" text-anchor="middle" class="tiny">• Data Aggregation</text>
+  <text x="1550" y="660" text-anchor="middle" class="tiny">• Narrative Synthesis</text>
+  <text x="1550" y="680" text-anchor="middle" class="tiny">• Risk Scoring</text>
+  <text x="1550" y="700" text-anchor="middle" class="tiny">• PDF Generation</text>
+  <text x="1550" y="720" text-anchor="middle" class="tiny">• Interview Questions</text>
+  <text x="1550" y="740" text-anchor="middle" class="small">Python + OpenAI GPT-4</text>
+
+  <!-- Arrows from API to Services -->
+  <path d="M 290 440 L 290 560" class="arrow"/>
+  <path d="M 710 440 L 710 560" class="arrow"/>
+  <path d="M 1130 440 L 1130 560" class="arrow"/>
+  <path d="M 1550 440 L 1550 560" class="arrow"/>
+
+  <!-- LAYER 4: INTEGRATION -->
+  <rect x="50" y="830" width="1700" height="280" class="layer" rx="10"/>
+  <text x="70" y="860" class="subtitle">Layer 4: Integration &amp; External Services</text>
+  
+  <rect x="100" y="880" width="250" height="200" class="external" rx="5"/>
+  <text x="225" y="910" text-anchor="middle" class="label">ElevenLabs</text>
+  <text x="225" y="930" text-anchor="middle" class="label">Conversational AI</text>
+  <text x="225" y="960" text-anchor="middle" class="tiny">• Voice Calls</text>
+  <text x="225" y="980" text-anchor="middle" class="tiny">• HR Verification Agent</text>
+  <text x="225" y="1000" text-anchor="middle" class="tiny">• Reference Agent</text>
+  <text x="225" y="1020" text-anchor="middle" class="tiny">• Transcription</text>
+  <text x="225" y="1040" text-anchor="middle" class="tiny">• Call Recording</text>
+  <text x="225" y="1060" text-anchor="middle" class="small">External API</text>
+  
+  <rect x="380" y="880" width="250" height="200" class="external" rx="5"/>
+  <text x="505" y="910" text-anchor="middle" class="label">SMTP Email</text>
+  <text x="505" y="930" text-anchor="middle" class="label">Service</text>
+  <text x="505" y="960" text-anchor="middle" class="tiny">• Gmail / Outlook</text>
+  <text x="505" y="980" text-anchor="middle" class="tiny">• HR Verification</text>
+  <text x="505" y="1000" text-anchor="middle" class="tiny">• Reference Requests</text>
+  <text x="505" y="1020" text-anchor="middle" class="tiny">• Candidate Invites</text>
+  <text x="505" y="1040" text-anchor="middle" class="tiny">• Report Delivery</text>
+  <text x="505" y="1060" text-anchor="middle" class="small">SMTP Protocol</text>
+  
+  <rect x="660" y="880" width="250" height="200" class="external" rx="5"/>
+  <text x="785" y="910" text-anchor="middle" class="label">OpenAI API</text>
+  <text x="785" y="930" text-anchor="middle" class="label">GPT-4 / GPT-4o</text>
+  <text x="785" y="960" text-anchor="middle" class="tiny">• Document OCR</text>
+  <text x="785" y="980" text-anchor="middle" class="tiny">• CV Extraction</text>
+  <text x="785" y="1000" text-anchor="middle" class="tiny">• Conversational AI</text>
+  <text x="785" y="1020" text-anchor="middle" class="tiny">• Report Synthesis</text>
+  <text x="785" y="1040" text-anchor="middle" class="tiny">• AI Analysis</text>
+  <text x="785" y="1060" text-anchor="middle" class="small">REST API</text>
+  
+  <rect x="940" y="880" width="250" height="200" class="external" rx="5"/>
+  <text x="1065" y="910" text-anchor="middle" class="label">GitHub API</text>
+  <text x="1065" y="930" text-anchor="middle" class="label">v3 REST</text>
+  <text x="1065" y="960" text-anchor="middle" class="tiny">• Profile Data</text>
+  <text x="1065" y="980" text-anchor="middle" class="tiny">• Repository Analysis</text>
+  <text x="1065" y="1000" text-anchor="middle" class="tiny">• Commit History</text>
+  <text x="1065" y="1020" text-anchor="middle" class="tiny">• Language Stats</text>
+  <text x="1065" y="1040" text-anchor="middle" class="tiny">• Contribution Graph</text>
+  <text x="1065" y="1060" text-anchor="middle" class="small">REST API</text>
+  
+  <rect x="1220" y="880" width="250" height="200" class="external" rx="5"/>
+  <text x="1345" y="910" text-anchor="middle" class="label">ATS Webhooks</text>
+  <text x="1345" y="930" text-anchor="middle" class="label">Integration</text>
+  <text x="1345" y="960" text-anchor="middle" class="tiny">• Greenhouse</text>
+  <text x="1345" y="980" text-anchor="middle" class="tiny">• Lever</text>
+  <text x="1345" y="1000" text-anchor="middle" class="tiny">• Workday</text>
+  <text x="1345" y="1020" text-anchor="middle" class="tiny">• Status Updates</text>
+  <text x="1345" y="1040" text-anchor="middle" class="tiny">• Report Push</text>
+  <text x="1345" y="1060" text-anchor="middle" class="small">Webhooks</text>
+  
+  <rect x="1500" y="880" width="250" height="200" class="external" rx="5"/>
+  <text x="1625" y="910" text-anchor="middle" class="label">National Student</text>
+  <text x="1625" y="930" text-anchor="middle" class="label">Clearinghouse</text>
+  <text x="1625" y="960" text-anchor="middle" class="tiny">• Degree Verification</text>
+  <text x="1625" y="980" text-anchor="middle" class="tiny">• Enrollment Dates</text>
+  <text x="1625" y="1000" text-anchor="middle" class="tiny">• Institution Lookup</text>
+  <text x="1625" y="1020" text-anchor="middle" class="tiny">• Credential Check</text>
+  <text x="1625" y="1040" text-anchor="middle" class="tiny">• (Future)</text>
+  <text x="1625" y="1060" text-anchor="middle" class="small">API Integration</text>
+
+  <!-- Arrows from Services to External -->
+  <path d="M 290 760 L 225 880" class="arrow"/>
+  <path d="M 710 760 L 505 880" class="arrow"/>
+  <path d="M 290 760 L 785 880" class="arrow"/>
+  <path d="M 710 760 L 1065 880" class="arrow"/>
+  <path d="M 1550 760 L 1345 880" class="arrow"/>
+
+  <!-- LAYER 5: DATA -->
+  <rect x="50" y="1150" width="1700" height="200" class="layer" rx="10"/>
+  <text x="70" y="1180" class="subtitle">Layer 5: Data Persistence Layer</text>
+  
+  <rect x="100" y="1200" width="500" height="120" class="database" rx="5"/>
+  <text x="350" y="1230" text-anchor="middle" class="label">SQLite Database</text>
+  <text x="200" y="1260" text-anchor="middle" class="tiny">• Candidates</text>
+  <text x="200" y="1280" text-anchor="middle" class="tiny">• Verification Sessions</text>
+  <text x="200" y="1300" text-anchor="middle" class="tiny">• Employment Records</text>
+  <text x="350" y="1260" text-anchor="middle" class="tiny">• Education Credentials</text>
+  <text x="350" y="1280" text-anchor="middle" class="tiny">• Contact Records</text>
+  <text x="350" y="1300" text-anchor="middle" class="tiny">• Fraud Flags</text>
+  <text x="500" y="1260" text-anchor="middle" class="tiny">• GitHub Analysis</text>
+  <text x="500" y="1280" text-anchor="middle" class="tiny">• Reports</text>
+  <text x="500" y="1300" text-anchor="middle" class="tiny">• Audit Logs</text>
+  
+  <rect x="650" y="1200" width="500" height="120" class="database" rx="5"/>
+  <text x="900" y="1230" text-anchor="middle" class="label">File Storage (Local)</text>
+  <text x="750" y="1260" text-anchor="middle" class="tiny">• Uploaded Documents</text>
+  <text x="750" y="1280" text-anchor="middle" class="tiny">• Call Transcripts</text>
+  <text x="900" y="1260" text-anchor="middle" class="tiny">• Email Logs</text>
+  <text x="900" y="1280" text-anchor="middle" class="tiny">• Generated Reports (PDF)</text>
+  <text x="1050" y="1260" text-anchor="middle" class="tiny">• Consent Forms</text>
+  <text x="1050" y="1280" text-anchor="middle" class="tiny">• Compliance Records</text>
+  
+  <rect x="1200" y="1200" width="500" height="120" class="database" rx="5"/>
+  <text x="1450" y="1230" text-anchor="middle" class="label">In-Memory Cache</text>
+  <text x="1350" y="1260" text-anchor="middle" class="tiny">• Session State</text>
+  <text x="1350" y="1280" text-anchor="middle" class="tiny">• Chat History</text>
+  <text x="1350" y="1300" text-anchor="middle" class="tiny">• Active Tasks</text>
+  <text x="1550" y="1260" text-anchor="middle" class="tiny">• Temporary Data</text>
+  <text x="1550" y="1280" text-anchor="middle" class="tiny">• API Responses</text>
+  <text x="1550" y="1300" text-anchor="middle" class="tiny">• (Python Dict)</text>
+
+  <!-- Arrows to Data Layer -->
+  <path d="M 350 1110 L 350 1200" class="arrow-bi"/>
+  <path d="M 900 1110 L 900 1200" class="arrow-bi"/>
+  <path d="M 1450 1110 L 1450 1200" class="arrow-bi"/>
+
+  <!-- Footer -->
+  <text x="900" y="1380" text-anchor="middle" class="small" style="fill: #999;">
+    Layered Architecture • Separation of Concerns • Scalable Design
+  </text>
+</svg>

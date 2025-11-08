@@ -1,0 +1,46 @@
+SARAH CHEN
+Email: sarah.chen@email.com | Phone: +1-555-0101
+GitHub: github.com/sarahchen | LinkedIn: linkedin.com/in/sarahchen
+
+PROFESSIONAL SUMMARY
+Senior Software Engineer with 7+ years of experience building scalable systems and leading development teams. 
+Expert in Python, cloud architecture, and microservices. Proven track record of delivering high-impact projects.
+
+WORK EXPERIENCE
+
+Senior Software Engineer | TechCorp Inc | March 2021 - October 2024
+• Led development of microservices architecture serving 10M+ users
+• Mentored team of 5 junior developers, improving code quality by 40%
+• Implemented CI/CD pipelines reducing deployment time by 60%
+• Technologies: Python, React, AWS, Docker, Kubernetes, PostgreSQL
+
+Software Engineer | StartupXYZ | June 2019 - February 2021
+• Built RESTful APIs handling 1M+ requests per day
+• Developed frontend features using React and TypeScript
+• Participated in code reviews and architectural decisions
+• Technologies: Python, JavaScript, PostgreSQL, Redis, Docker
+
+Junior Developer | InnovateLabs | September 2017 - May 2019
+• Fixed bugs and implemented new features for web applications
+• Wrote comprehensive unit tests achieving 85% code coverage
+• Collaborated with design team on UI/UX improvements
+• Technologies: Python, Django, MySQL, JavaScript
+
+EDUCATION
+
+Bachelor of Science in Computer Science | University of California, Berkeley | May 2017
+GPA: 3.8/4.0 | Graduated Cum Laude
+
+TECHNICAL SKILLS
+Languages: Python, JavaScript, TypeScript, Go, SQL
+Frameworks: Django, Flask, React, Node.js
+Cloud & DevOps: AWS, Docker, Kubernetes, CI/CD, Terraform
+Databases: PostgreSQL, MySQL, Redis, MongoDB
+
+CERTIFICATIONS
+• AWS Certified Solutions Architect - Associate (2023)
+
+NOTABLE PROJECTS
+• Microservices Platform: Designed and implemented scalable microservices architecture
+• API Gateway: Built high-performance API gateway with rate limiting and authentication
+• Data Pipeline: Created ETL pipeline processing 100GB+ daily

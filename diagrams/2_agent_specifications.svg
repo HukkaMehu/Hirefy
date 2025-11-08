@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 2200" style="background-color: white;">
+  <defs>
+    <style>
+      .title { font: bold 32px sans-serif; fill: #1a1a1a; }
+      .subtitle { font: bold 20px sans-serif; fill: #333; }
+      .label { font: 15px sans-serif; fill: #1a1a1a; }
+      .small { font: 13px sans-serif; fill: #555; }
+      .tiny { font: 11px sans-serif; fill: #666; }
+      .agent { fill: #e8f5e9; stroke: #388e3c; stroke-width: 3; }
+      .spec { fill: #fff3e0; stroke: #f57c00; stroke-width: 2; }
+      .flow { fill: #e3f2fd; stroke: #1976d2; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <text x="900" y="40" text-anchor="middle" class="title">AI Agent Specifications</text>
+  <text x="900" y="70" text-anchor="middle" class="small">Detailed Agent Architecture &amp; Behavior</text>
+
+  <!-- AGENT 1: CONVERSATIONAL DOCUMENT COLLECTION -->
+  <rect x="50" y="100" width="800" height="480" class="agent" rx="10"/>
+  <text x="70" y="135" class="subtitle">Agent 1: Conversational Document Collection Agent</text>
+  
+  <rect x="80" y="155" width="740" height="60" class="spec" rx="5"/>
+  <text x="100" y="180" class="label">Purpose:</text>
+  <text x="100" y="200" class="small">Guide candidates through document upload with natural language</text>
+  
+  <rect x="80" y="230" width="740" height="140" class="spec" rx="5"/>
+  <text x="100" y="255" class="label">Technical Specifications:</text>
+  <text x="120" y="280" class="small">• Model: OpenAI GPT-4o (128K context)</text>
+  <text x="120" y="300" class="small">• Temperature: 0.7 (conversational)</text>
+  <text x="120" y="320" class="small">• Max Tokens: 500 per response</text>
+  <text x="120" y="340" class="small">• Context Window: Full session history + extracted data</text>
+  <text x="120" y="360" class="small">• Response Time: &lt;2 seconds</text>
+  
+  <rect x="80" y="385" width="740" height="180" class="flow" rx="5"/>
+  <text x="100" y="410" class="label">Conversation Flow:</text>
+  <text x="120" y="435" class="small">1. Initial Greeting → Request CV</text>
+  <text x="120" y="455" class="small">2. Process CV → Extract employment &amp; education</text>
+  <text x="120" y="475" class="small">3. Request Supporting Docs → Paystubs, diplomas</text>
+  <text x="120" y="495" class="small">4. Detect Conflicts → Ask clarifying questions</text>
+  <text x="120" y="515" class="small">5. Identify Gaps → Request explanations</text>
+  <text x="120" y="535" class="small">6. Summarize → Confirm before verification</text>
+  <text x="120" y="555" class="small">7. Finalize → Trigger verification orchestration</text>
+
+  <!-- AGENT 2: HR VERIFICATION -->
+  <rect x="900" y="100" width="850" height="480" class="agent" rx="10"/>
+  <text x="920" y="135" class="subtitle">Agent 2: HR Verification Agent (ElevenLabs)</text>
+  
+  <rect x="930" y="155" width="790" height="60" class="spec" rx="5"/>
+  <text x="950" y="180" class="label">Purpose:</text>
+  <text x="950" y="200" class="small">Verify employment dates, titles, and facts with HR departments</text>
+  
+  <rect x="930" y="230" width="790" height="140" class="spec" rx="5"/>
+  <text x="950" y="255" class="label">Technical Specifications:</text>
+  <text x="970" y="280" class="small">• Platform: ElevenLabs Conversational AI</text>
+  <text x="970" y="300" class="small">• Voice: Professional, clear, neutral tone</text>
+  <text x="970" y="320" class="small">• Max Duration: 10 minutes (600 seconds)</text>
+  <text x="970" y="340" class="small">• Channels: Phone (primary), Email (fallback)</text>
+  <text x="970" y="360" class="small">• Transcription: Real-time, stored for compliance</text>
+  
+  <rect x="930" y="385" width="790" height="180" class="flow" rx="5"/>
+  <text x="950" y="410" class="label">Call Script:</text>
+  <text x="970" y="435" class="small">1. Introduction → "Automated employment verification call"</text>
+  <text x="970" y="455" class="small">2. Confirm Employment → "Did [Name] work at your organization?"</text>
+  <text x="970" y="475" class="small">3. Verify Title → "What was their official job title?"</text>
+  <text x="970" y="495" class="small">4. Verify Dates → "What were their start and end dates?"</text>
+  <text x="970" y="515" class="small">5. Additional Info → "Any other relevant information?"</text>
+  <text x="970" y="535" class="small">6. Thank You → "Thank you for your assistance"</text>
+  <text x="970" y="555" class="small">7. End Call → Save transcript, update database</text>
+
+  <!-- AGENT 3: REFERENCE CHECK -->
+  <rect x="50" y="620" width="800" height="520" class="agent" rx="10"/>
+  <text x="70" y="655" class="subtitle">Agent 3: Reference Check Agent (ElevenLabs)</text>
+  
+  <rect x="80" y="675" width="740" height="60" class="spec" rx="5"/>
+  <text x="100" y="700" class="label">Purpose:</text>
+  <text x="100" y="720" class="small">Gather qualitative feedback on performance, skills, and work style</text>
+  
+  <rect x="80" y="750" width="740" height="140" class="spec" rx="5"/>
+  <text x="100" y="775" class="label">Technical Specifications:</text>
+  <text x="120" y="800" class="small">• Platform: ElevenLabs Conversational AI</text>
+  <text x="120" y="820" class="small">• Voice: Friendly, conversational, warm tone</text>
+  <text x="120" y="840" class="small">• Max Duration: 10 minutes (600 seconds)</text>
+  <text x="120" y="860" class="small">• Channels: Phone (primary), Email (fallback)</text>
+  <text x="120" y="880" class="small">• Transcription: Full conversation recorded</text>
+  
+  <rect x="80" y="905" width="740" height="220" class="flow" rx="5"/>
+  <text x="100" y="930" class="label">Interview Questions:</text>
+  <text x="120" y="955" class="small">1. "What projects did [Name] work on?"</text>
+  <text x="120" y="975" class="small">2. "What technical skills did they demonstrate?"</text>
+  <text x="120" y="995" class="small">3. "How would you describe their motivation and work ethic?"</text>
+  <text x="120" y="1015" class="small">4. "How would you rate their overall performance?"</text>
+  <text x="120" y="1035" class="small">5. "Did they receive any promotions or recognition?"</text>
+  <text x="120" y="1055" class="small">6. "What areas could they improve in?"</text>
+  <text x="120" y="1075" class="small">7. "Would you work with them again?"</text>
+  <text x="120" y="1095" class="small">8. "Any other feedback you'd like to share?"</text>
+
+  <!-- AGENT 4: TECHNICAL ANALYZER -->
+  <rect x="900" y="620" width="850" height="520" class="agent" rx="10"/>
+  <text x="920" y="655" class="subtitle">Agent 4: Technical Profile Analyzer</text>
+  
+  <rect x="930" y="675" width="790" height="60" class="spec" rx="5"/>
+  <text x="950" y="700" class="label">Purpose:</text>
+  <text x="950" y="720" class="small">Analyze GitHub profiles to validate technical skills and contributions</text>
+  
+  <rect x="930" y="750" width="790" height="160" class="spec" rx="5"/>
+  <text x="950" y="775" class="label">Technical Specifications:</text>
+  <text x="970" y="800" class="small">• API: GitHub REST API v3</text>
+  <text x="970" y="820" class="small">• Rate Limit: 5000 requests/hour (authenticated)</text>
+  <text x="970" y="840" class="small">• Analysis Depth: All public repositories</text>
+  <text x="970" y="860" class="small">• Metrics: Commits, languages, activity timeline</text>
+  <text x="970" y="880" class="small">• Code Quality: Repository structure, documentation</text>
+  <text x="970" y="900" class="small">• Processing Time: 10-30 seconds per profile</text>
+  
+  <rect x="930" y="925" width="790" height="200" class="flow" rx="5"/>
+  <text x="950" y="950" class="label">Analysis Process:</text>
+  <text x="970" y="975" class="small">1. Fetch Profile → User data, bio, location</text>
+  <text x="970" y="995" class="small">2. List Repositories → Public repos, ownership</text>
+  <text x="970" y="1015" class="small">3. Analyze Commits → Frequency, timeline, patterns</text>
+  <text x="970" y="1035" class="small">4. Extract Languages → Primary languages used</text>
+  <text x="970" y="1055" class="small">5. Assess Quality → README, tests, structure</text>
+  <text x="970" y="1075" class="small">6. Compare Skills → Claimed vs. actual evidence</text>
+  <text x="970" y="1095" class="small">7. Generate Score → Code quality 1-10</text>
+  <text x="970" y="1115" class="small">8. Flag Mismatches → Identify discrepancies</text>
+
+  <!-- AGENT 5: FRAUD DETECTOR -->
+  <rect x="50" y="1180" width="800" height="520" class="agent" rx="10"/>
+  <text x="70" y="1215" class="subtitle">Agent 5: Fraud Detection Engine</text>
+  
+  <rect x="80" y="1235" width="740" height="60" class="spec" rx="5"/>
+  <text x="100" y="1260" class="label">Purpose:</text>
+  <text x="100" y="1280" class="small">Detect inconsistencies, unverifiable claims, and fraud patterns</text>
+  
+  <rect x="80" y="1310" width="740" height="140" class="spec" rx="5"/>
+  <text x="100" y="1335" class="label">Technical Specifications:</text>
+  <text x="120" y="1360" class="small">• Algorithm: Rule-based + Pattern matching</text>
+  <text x="120" y="1380" class="small">• Processing: Real-time during verification</text>
+  <text x="120" y="1400" class="small">• Severity Levels: Critical, Moderate, Minor</text>
+  <text x="120" y="1420" class="small">• Risk Scoring: Green/Yellow/Red classification</text>
+  <text x="120" y="1440" class="small">• Confidence: Percentage-based scoring</text>
+  
+  <rect x="80" y="1465" width="740" height="220" class="flow" rx="5"/>
+  <text x="100" y="1490" class="label">Detection Rules:</text>
+  <text x="120" y="1515" class="small">• Timeline Fraud: Overlapping employment, impossible dates</text>
+  <text x="120" y="1535" class="small">• Credential Fraud: Unverifiable degrees, fake certifications</text>
+  <text x="120" y="1555" class="small">• Technical Fraud: No GitHub activity during claimed period</text>
+  <text x="120" y="1575" class="small">• Reference Fraud: Unreachable contacts, suspicious patterns</text>
+  <text x="120" y="1595" class="small">• Document Fraud: Metadata anomalies, template detection</text>
+  <text x="120" y="1615" class="small">• Gap Analysis: Unexplained employment gaps &gt;3 months</text>
+  <text x="120" y="1635" class="small">• Consistency Check: Cross-document validation</text>
+  <text x="120" y="1655" class="small">• Pattern Matching: Known fraud signatures</text>
+
+  <!-- AGENT 6: REPORT SYNTHESIZER -->
+  <rect x="900" y="1180" width="850" height="520" class="agent" rx="10"/>
+  <text x="920" y="1215" class="subtitle">Agent 6: Report Synthesis Agent (GPT-4)</text>
+  
+  <rect x="930" y="1235" width="790" height="60" class="spec" rx="5"/>
+  <text x="950" y="1260" class="label">Purpose:</text>
+  <text x="950" y="1280" class="small">Generate comprehensive narrative reports with risk assessment</text>
+  
+  <rect x="930" y="1310" width="790" height="140" class="spec" rx="5"/>
+  <text x="950" y="1335" class="label">Technical Specifications:</text>
+  <text x="970" y="1360" class="small">• Model: OpenAI GPT-4o (deep reasoning)</text>
+  <text x="970" y="1380" class="small">• Temperature: 0.3 (consistent, factual)</text>
+  <text x="970" y="1400" class="small">• Max Tokens: 4000 (comprehensive reports)</text>
+  <text x="970" y="1420" class="small">• Processing Time: 10-30 seconds</text>
+  <text x="970" y="1440" class="small">• Output: Structured JSON + PDF</text>
+  
+  <rect x="930" y="1465" width="790" height="220" class="flow" rx="5"/>
+  <text x="950" y="1490" class="label">Report Sections:</text>
+  <text x="970" y="1515" class="small">1. Executive Summary → Overall risk assessment</text>
+  <text x="970" y="1535" class="small">2. Employment History → Narrative for each position</text>
+  <text x="970" y="1555" class="small">3. Reference Feedback → Key quotes and themes</text>
+  <text x="970" y="1575" class="small">4. Technical Validation → GitHub analysis, skills match</text>
+  <text x="970" y="1595" class="small">5. Education Verification → Credential status</text>
+  <text x="970" y="1615" class="small">6. Red Flags → Fraud flags with evidence</text>
+  <text x="970" y="1635" class="small">7. Risk Score → Green/Yellow/Red with reasoning</text>
+  <text x="970" y="1655" class="small">8. Interview Questions → 5-10 targeted questions</text>
+
+  <!-- AGENT COORDINATION -->
+  <rect x="50" y="1740" width="1700" height="200" class="flow" rx="10"/>
+  <text x="70" y="1775" class="subtitle">Agent Coordination &amp; Communication</text>
+  
+  <text x="100" y="1810" class="label">Sequential Flow:</text>
+  <text x="120" y="1835" class="small">Agent 1 (Document Collection) → Agent 2,3,4 (Parallel Verification) → Agent 5 (Fraud Detection) → Agent 6 (Report)</text>
+  
+  <text x="100" y="1870" class="label">Data Sharing:</text>
+  <text x="120" y="1895" class="small">• All agents read/write to shared SQLite database</text>
+  <text x="120" y="1915" class="small">• Session state maintained in memory for active conversations</text>
+
+  <!-- Footer -->
+  <text x="900" y="2180" text-anchor="middle" class="small" style="fill: #999;">
+    6 Specialized AI Agents • Coordinated Workflow • Real-time Processing
+  </text>
+</svg>

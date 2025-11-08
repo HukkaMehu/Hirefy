@@ -1,0 +1,54 @@
+DAVID THOMPSON
+Email: david.thompson@email.com | Phone: +1-555-0303
+GitHub: github.com/dthompson | LinkedIn: linkedin.com/in/davidthompson
+
+PROFESSIONAL SUMMARY
+Lead Software Architect with 7+ years of experience designing enterprise-scale systems.
+Expert in microservices, AI/ML, and cloud architecture. Proven leader managing teams of 15+ engineers.
+
+WORK EXPERIENCE
+
+Lead Software Architect | Elite Tech Corp | January 2022 - October 2024
+• Architected enterprise-scale systems serving millions of users
+• Led team of 15 engineers across multiple projects
+• Designed microservices infrastructure using Kubernetes
+• Implemented AI/ML solutions for predictive analytics
+• Technologies: Python, Go, Kubernetes, TensorFlow, AWS, React
+
+Senior Full Stack Developer | InnovateSoft | June 2019 - December 2021
+• Built scalable web applications handling high traffic
+• Mentored junior developers and conducted code reviews
+• Optimized system performance achieving 50% improvement
+• Technologies: Python, React, PostgreSQL, Redis, Docker
+
+Software Engineer | CodeFactory | March 2017 - May 2019
+• Developed backend services and REST APIs
+• Designed and optimized database schemas
+• Implemented AWS cloud infrastructure
+• Technologies: Java, Spring, MySQL, AWS
+
+EDUCATION
+
+Master of Science in Computer Science | Massachusetts Institute of Technology | May 2017
+GPA: 3.9/4.0 | Thesis: "Advanced Machine Learning for Distributed Systems"
+
+Bachelor of Science in Computer Science | Stanford University | June 2015
+GPA: 3.8/4.0 | Dean's List
+
+TECHNICAL SKILLS
+Languages: Python, Go, Java, JavaScript, TypeScript, C++
+Frameworks: Django, Flask, React, Spring Boot, TensorFlow, PyTorch
+Cloud & DevOps: AWS, Kubernetes, Docker, Terraform, CI/CD
+Databases: PostgreSQL, MySQL, Redis, MongoDB, Cassandra
+Architecture: Microservices, Event-Driven, Serverless
+
+CERTIFICATIONS
+• AWS Solutions Architect Professional (2023)
+• Google Cloud Professional Cloud Architect (2022)
+• Certified Kubernetes Administrator (2021)
+
+NOTABLE ACHIEVEMENTS
+• Architected system handling 10M+ daily active users
+• Reduced infrastructure costs by 40% through optimization
+• Published 3 papers on distributed systems
+• Speaker at major tech conferences

@@ -1,0 +1,39 @@
+MICHAEL RODRIGUEZ
+Email: michael.rodriguez@email.com | Phone: +1-555-0202
+GitHub: github.com/mrodriguez | LinkedIn: linkedin.com/in/michaelrodriguez
+
+PROFESSIONAL SUMMARY
+Software Developer with 5+ years of experience in data processing and web development.
+Skilled in Python, Java, and cloud technologies.
+
+WORK EXPERIENCE
+
+Senior Developer | DataSystems Corp | January 2023 - November 2024
+• Developed data processing pipelines handling large datasets
+• Led team of 3 developers on ETL projects
+• Optimized database queries improving performance by 30%
+• Technologies: Python, PostgreSQL, Apache Spark, AWS
+
+Software Developer | CloudTech Solutions | March 2019 - August 2021
+• Built cloud-native applications using microservices architecture
+• Implemented REST APIs for customer-facing applications
+• Maintained and improved legacy systems
+• Technologies: Java, Spring Boot, AWS, Docker
+
+Junior Developer | WebDev Inc | June 2017 - February 2019
+• Developed web applications using modern JavaScript frameworks
+• Fixed bugs and implemented new features
+• Wrote technical documentation
+• Technologies: JavaScript, Node.js, MongoDB, React
+
+EDUCATION
+
+Bachelor of Science in Computer Science | State University | May 2017
+GPA: 3.4/4.0
+
+TECHNICAL SKILLS
+Languages: Python, Java, JavaScript, SQL
+Frameworks: Spring Boot, Node.js, React
+Cloud: AWS, Docker
+Databases: PostgreSQL, MongoDB, MySQL
+Tools: Apache Spark, Git, Jenkins

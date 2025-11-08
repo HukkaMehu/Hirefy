@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 2000" style="background-color: white;">
+  <defs>
+    <style>
+      .title { font: bold 32px sans-serif; fill: #1a1a1a; }
+      .subtitle { font: bold 20px sans-serif; fill: #333; }
+      .label { font: 15px sans-serif; fill: #1a1a1a; }
+      .small { font: 13px sans-serif; fill: #555; }
+      .tiny { font: 11px sans-serif; fill: #666; }
+      .backend { fill: #e8f5e9; stroke: #388e3c; stroke-width: 3; }
+      .frontend { fill: #e3f2fd; stroke: #1976d2; stroke-width: 3; }
+      .ai { fill: #fff3e0; stroke: #f57c00; stroke-width: 3; }
+      .infra { fill: #f3e5f5; stroke: #7b1fa2; stroke-width: 3; }
+      .tool { fill: #fce4ec; stroke: #c2185b; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <text x="900" y="40" text-anchor="middle" class="title">Technology Stack</text>
+  <text x="900" y="70" text-anchor="middle" class="small">Complete Technical Infrastructure</text>
+
+  <!-- BACKEND STACK -->
+  <rect x="50" y="110" width="850" height="420" class="backend" rx="10"/>
+  <text x="70" y="145" class="subtitle">Backend Stack</text>
+  
+  <rect x="80" y="165" width="380" height="340" class="tool" rx="5"/>
+  <text x="270" y="195" text-anchor="middle" class="label">Core Framework</text>
+  <text x="100" y="225" class="small">Python 3.10+</text>
+  <text x="120" y="245" class="tiny">• Type hints for safety</text>
+  <text x="120" y="265" class="tiny">• Async/await support</text>
+  <text x="100" y="295" class="small">Flask 3.0</text>
+  <text x="120" y="315" class="tiny">• REST API framework</text>
+  <text x="120" y="335" class="tiny">• Blueprint architecture</text>
+  <text x="100" y="365" class="small">SQLAlchemy 2.0</text>
+  <text x="120" y="385" class="tiny">• ORM for database</text>
+  <text x="120" y="405" class="tiny">• Migration support</text>
+  <text x="100" y="435" class="small">Flask-CORS</text>
+  <text x="120" y="455" class="tiny">• Cross-origin requests</text>
+  <text x="100" y="485" class="small">python-dotenv</text>
+  <text x="120" y="505" class="tiny">• Environment config</text>
+  
+  <rect x="490" y="165" width="380" height="340" class="tool" rx="5"/>
+  <text x="680" y="195" text-anchor="middle" class="label">Libraries &amp; Tools</text>
+  <text x="510" y="225" class="small">PyPDF2</text>
+  <text x="530" y="245" class="tiny">• PDF parsing</text>
+  <text x="510" y="275" class="small">Pillow (PIL)</text>
+  <text x="530" y="295" class="tiny">• Image processing</text>
+  <text x="510" y="325" class="small">requests</text>
+  <text x="530" y="345" class="tiny">• HTTP client</text>
+  <text x="510" y="375" class="small">smtplib</text>
+  <text x="530" y="395" class="tiny">• Email sending</text>
+  <text x="510" y="425" class="small">threading</text>
+  <text x="530" y="445" class="tiny">• Parallel tasks</text>
+  <text x="510" y="475" class="small">logging</text>
+  <text x="530" y="495" class="tiny">• Structured logs</text>
+
+  <!-- FRONTEND STACK -->
+  <rect x="950" y="110" width="800" height="420" class="frontend" rx="10"/>
+  <text x="970" y="145" class="subtitle">Frontend Stack</text>
+  
+  <rect x="980" y="165" width="360" height="340" class="tool" rx="5"/>
+  <text x="1160" y="195" text-anchor="middle" class="label">Core Framework</text>
+  <text x="1000" y="225" class="small">React 18</text>
+  <text x="1020" y="245" class="tiny">• Component-based UI</text>
+  <text x="1020" y="265" class="tiny">• Hooks API</text>
+  <text x="1000" y="295" class="small">TypeScript 5.0</text>
+  <text x="1020" y="315" class="tiny">• Type safety</text>
+  <text x="1020" y="335" class="tiny">• Better IDE support</text>
+  <text x="1000" y="365" class="small">Vite 5.0</text>
+  <text x="1020" y="385" class="tiny">• Fast dev server</text>
+  <text x="1020" y="405" class="tiny">• Hot module reload</text>
+  <text x="1000" y="435" class="small">React Router 6</text>
+  <text x="1020" y="455" class="tiny">• Client-side routing</text>
+  <text x="1000" y="485" class="small">Axios</text>
+  <text x="1020" y="505" class="tiny">• HTTP client</text>
+  
+  <rect x="1370" y="165" width="350" height="340" class="tool" rx="5"/>
+  <text x="1545" y="195" text-anchor="middle" class="label">UI &amp; Styling</text>
+  <text x="1390" y="225" class="small">Tailwind CSS 3.4</text>
+  <text x="1410" y="245" class="tiny">• Utility-first CSS</text>
+  <text x="1410" y="265" class="tiny">• Responsive design</text>
+  <text x="1390" y="295" class="small">Shadcn/ui</text>
+  <text x="1410" y="315" class="tiny">• Beautiful components</text>
+  <text x="1410" y="335" class="tiny">• Accessible by default</text>
+  <text x="1390" y="365" class="small">Lucide React</text>
+  <text x="1410" y="385" class="tiny">• Icon library</text>
+  <text x="1390" y="415" class="small">Framer Motion</text>
+  <text x="1410" y="435" class="tiny">• Smooth animations</text>
+  <text x="1390" y="465" class="small">Recharts</text>
+  <text x="1410" y="485" class="tiny">• Data visualization</text>
+
+  <!-- AI/ML STACK -->
+  <rect x="50" y="570" width="850" height="420" class="ai" rx="10"/>
+  <text x="70" y="605" class="subtitle">AI/ML Stack</text>
+  
+  <rect x="80" y="625" width="380" height="340" class="tool" rx="5"/>
+  <text x="270" y="655" text-anchor="middle" class="label">OpenAI Services</text>
+  <text x="100" y="685" class="small">GPT-4o</text>
+  <text x="120" y="705" class="tiny">• Deep reasoning model</text>
+  <text x="120" y="725" class="tiny">• 128K context window</text>
+  <text x="120" y="745" class="tiny">• Report synthesis</text>
+  <text x="100" y="775" class="small">GPT-4 Vision</text>
+  <text x="120" y="795" class="tiny">• Document OCR</text>
+  <text x="120" y="815" class="tiny">• Image analysis</text>
+  <text x="120" y="835" class="tiny">• CV extraction</text>
+  <text x="100" y="865" class="small">GPT-4o-mini</text>
+  <text x="120" y="885" class="tiny">• Fast responses</text>
+  <text x="120" y="905" class="tiny">• Conversational AI</text>
+  <text x="120" y="925" class="tiny">• Cost-effective</text>
+  <text x="100" y="955" class="small">openai Python SDK</text>
+  
+  <rect x="490" y="625" width="380" height="340" class="tool" rx="5"/>
+  <text x="680" y="655" text-anchor="middle" class="label">Voice AI</text>
+  <text x="510" y="685" class="small">ElevenLabs</text>
+  <text x="530" y="705" class="tiny">• Conversational AI</text>
+  <text x="530" y="725" class="tiny">• Natural voice synthesis</text>
+  <text x="530" y="745" class="tiny">• Real-time transcription</text>
+  <text x="510" y="775" class="small">HR Agent</text>
+  <text x="530" y="795" class="tiny">• Professional tone</text>
+  <text x="530" y="815" class="tiny">• Factual verification</text>
+  <text x="510" y="845" class="small">Reference Agent</text>
+  <text x="530" y="865" class="tiny">• Friendly tone</text>
+  <text x="530" y="885" class="tiny">• Qualitative feedback</text>
+  <text x="510" y="915" class="small">elevenlabs Python SDK</text>
+  <text x="530" y="935" class="tiny">• API integration</text>
+
+  <!-- INFRASTRUCTURE -->
+  <rect x="950" y="570" width="800" height="420" class="infra" rx="10"/>
+  <text x="970" y="605" class="subtitle">Infrastructure &amp; Data</text>
+  
+  <rect x="980" y="625" width="360" height="340" class="tool" rx="5"/>
+  <text x="1160" y="655" text-anchor="middle" class="label">Database &amp; Storage</text>
+  <text x="1000" y="685" class="small">SQLite 3</text>
+  <text x="1020" y="705" class="tiny">• Embedded database</text>
+  <text x="1020" y="725" class="tiny">• Zero configuration</text>
+  <text x="1020" y="745" class="tiny">• File-based</text>
+  <text x="1000" y="775" class="small">Local File System</text>
+  <text x="1020" y="795" class="tiny">• Document storage</text>
+  <text x="1020" y="815" class="tiny">• Transcript storage</text>
+  <text x="1020" y="835" class="tiny">• Report PDFs</text>
+  <text x="1000" y="865" class="small">In-Memory Cache</text>
+  <text x="1020" y="885" class="tiny">• Session state</text>
+  <text x="1020" y="905" class="tiny">• Active conversations</text>
+  <text x="1020" y="925" class="tiny">• Python dictionaries</text>
+  
+  <rect x="1370" y="625" width="350" height="340" class="tool" rx="5"/>
+  <text x="1545" y="655" text-anchor="middle" class="label">External APIs</text>
+  <text x="1390" y="685" class="small">GitHub API v3</text>
+  <text x="1410" y="705" class="tiny">• Profile analysis</text>
+  <text x="1410" y="725" class="tiny">• Repository data</text>
+  <text x="1390" y="755" class="small">SMTP Services</text>
+  <text x="1410" y="775" class="tiny">• Gmail</text>
+  <text x="1410" y="795" class="tiny">• Outlook/Office 365</text>
+  <text x="1390" y="825" class="small">ATS APIs</text>
+  <text x="1410" y="845" class="tiny">• Greenhouse</text>
+  <text x="1410" y="865" class="tiny">• Lever</text>
+  <text x="1410" y="885" class="tiny">• Workday (future)</text>
+  <text x="1390" y="915" class="small">NSC API</text>
+  <text x="1410" y="935" class="tiny">• Education verification</text>
+  <text x="1410" y="955" class="tiny">• (Future integration)</text>
+
+  <!-- DEVELOPMENT TOOLS -->
+  <rect x="50" y="1030" width="1700" height="280" class="tool" rx="10"/>
+  <text x="70" y="1065" class="subtitle">Development &amp; Testing Tools</text>
+  
+  <rect x="80" y="1085" width="400" height="200" class="tool" rx="5"/>
+  <text x="280" y="1115" text-anchor="middle" class="label">Version Control</text>
+  <text x="100" y="1145" class="small">Git</text>
+  <text x="120" y="1165" class="tiny">• Source control</text>
+  <text x="100" y="1195" class="small">GitHub</text>
+  <text x="120" y="1215" class="tiny">• Repository hosting</text>
+  <text x="120" y="1235" class="tiny">• Issue tracking</text>
+  <text x="120" y="1255" class="tiny">• CI/CD (future)</text>
+  
+  <rect x="520" y="1085" width="400" height="200" class="tool" rx="5"/>
+  <text x="720" y="1115" text-anchor="middle" class="label">Testing</text>
+  <text x="540" y="1145" class="small">pytest</text>
+  <text x="560" y="1165" class="tiny">• Unit tests</text>
+  <text x="560" y="1185" class="tiny">• Integration tests</text>
+  <text x="540" y="1215" class="small">Manual Testing</text>
+  <text x="560" y="1235" class="tiny">• End-to-end flows</text>
+  <text x="560" y="1255" class="tiny">• Demo scenarios</text>
+  
+  <rect x="960" y="1085" width="400" height="200" class="tool" rx="5"/>
+  <text x="1160" y="1115" text-anchor="middle" class="label">Environment</text>
+  <text x="980" y="1145" class="small">.env Files</text>
+  <text x="1000" y="1165" class="tiny">• API keys</text>
+  <text x="1000" y="1185" class="tiny">• Configuration</text>
+  <text x="980" y="1215" class="small">Virtual Environment</text>
+  <text x="1000" y="1235" class="tiny">• Isolated dependencies</text>
+  <text x="1000" y="1255" class="tiny">• venv / virtualenv</text>
+  
+  <rect x="1400" y="1085" width="320" height="200" class="tool" rx="5"/>
+  <text x="1560" y="1115" text-anchor="middle" class="label">IDE</text>
+  <text x="1420" y="1145" class="small">VS Code</text>
+  <text x="1440" y="1165" class="tiny">• Python extension</text>
+  <text x="1440" y="1185" class="tiny">• TypeScript support</text>
+  <text x="1440" y="1205" class="tiny">• Debugging</text>
+  <text x="1440" y="1225" class="tiny">• Git integration</text>
+  <text x="1440" y="1245" class="tiny">• Kiro AI assistant</text>
+
+  <!-- DEPLOYMENT -->
+  <rect x="50" y="1350" width="1700" height="280" class="infra" rx="10"/>
+  <text x="70" y="1385" class="subtitle">Deployment Architecture</text>
+  
+  <rect x="80" y="1405" width="520" height="200" class="tool" rx="5"/>
+  <text x="340" y="1435" text-anchor="middle" class="label">Local Development</text>
+  <text x="100" y="1465" class="small">Backend Server</text>
+  <text x="120" y="1485" class="tiny">• Flask dev server</text>
+  <text x="120" y="1505" class="tiny">• Port 5000</text>
+  <text x="120" y="1525" class="tiny">• Hot reload enabled</text>
+  <text x="100" y="1555" class="small">Frontend Server</text>
+  <text x="120" y="1575" class="tiny">• Vite dev server</text>
+  <text x="120" y="1595" class="tiny">• Port 5173</text>
+  
+  <rect x="640" y="1405" width="520" height="200" class="tool" rx="5"/>
+  <text x="900" y="1435" text-anchor="middle" class="label">Production (Future)</text>
+  <text x="660" y="1465" class="small">Backend</text>
+  <text x="680" y="1485" class="tiny">• Gunicorn WSGI server</text>
+  <text x="680" y="1505" class="tiny">• Nginx reverse proxy</text>
+  <text x="680" y="1525" class="tiny">• SSL/TLS certificates</text>
+  <text x="660" y="1555" class="small">Frontend</text>
+  <text x="680" y="1575" class="tiny">• Static build (npm run build)</text>
+  <text x="680" y="1595" class="tiny">• CDN distribution</text>
+  
+  <rect x="1200" y="1405" width="520" height="200" class="tool" rx="5"/>
+  <text x="1460" y="1435" text-anchor="middle" class="label">Cloud (Future)</text>
+  <text x="1220" y="1465" class="small">Options:</text>
+  <text x="1240" y="1485" class="tiny">• AWS (EC2, RDS, S3)</text>
+  <text x="1240" y="1505" class="tiny">• Google Cloud Platform</text>
+  <text x="1240" y="1525" class="tiny">• Azure</text>
+  <text x="1240" y="1545" class="tiny">• Heroku (simple deploy)</text>
+  <text x="1240" y="1565" class="tiny">• DigitalOcean</text>
+  <text x="1240" y="1585" class="tiny">• Railway / Render</text>
+
+  <!-- SECURITY & COMPLIANCE -->
+  <rect x="50" y="1670" width="1700" height="260" class="tool" rx="10"/>
+  <text x="70" y="1705" class="subtitle">Security &amp; Compliance (Future)</text>
+  
+  <rect x="80" y="1725" width="520" height="180" class="tool" rx="5"/>
+  <text x="340" y="1755" text-anchor="middle" class="label">Security</text>
+  <text x="100" y="1785" class="small">• AES-256 encryption at rest</text>
+  <text x="100" y="1805" class="small">• TLS 1.3 in transit</text>
+  <text x="100" y="1825" class="small">• OAuth 2.0 authentication</text>
+  <text x="100" y="1845" class="small">• JWT tokens</text>
+  <text x="100" y="1865" class="small">• Rate limiting</text>
+  <text x="100" y="1885" class="small">• Input validation</text>
+  
+  <rect x="640" y="1725" width="520" height="180" class="tool" rx="5"/>
+  <text x="900" y="1755" text-anchor="middle" class="label">Compliance</text>
+  <text x="660" y="1785" class="small">• GDPR compliance</text>
+  <text x="660" y="1805" class="small">• CCPA compliance</text>
+  <text x="660" y="1825" class="small">• SOC 2 Type II</text>
+  <text x="660" y="1845" class="small">• TCPA (phone calls)</text>
+  <text x="660" y="1865" class="small">• CAN-SPAM (email)</text>
+  <text x="660" y="1885" class="small">• 7-year record retention</text>
+  
+  <rect x="1200" y="1725" width="520" height="180" class="tool" rx="5"/>
+  <text x="1460" y="1755" text-anchor="middle" class="label">Monitoring</text>
+  <text x="1220" y="1785" class="small">• Sentry (error tracking)</text>
+  <text x="1220" y="1805" class="small">• Datadog (APM)</text>
+  <text x="1220" y="1825" class="small">• CloudWatch (AWS)</text>
+  <text x="1220" y="1845" class="small">• Structured logging</text>
+  <text x="1220" y="1865" class="small">• Audit trails</text>
+  <text x="1220" y="1885" class="small">• Performance metrics</text>
+
+  <!-- Footer -->
+  <text x="900" y="1980" text-anchor="middle" class="small" style="fill: #999;">
+    Modern Stack • Production-Ready • Scalable • Secure
+  </text>
+</svg>

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 2400" style="background-color: white;">
+  <defs>
+    <style>
+      .title { font: bold 32px sans-serif; fill: #1a1a1a; }
+      .subtitle { font: bold 20px sans-serif; fill: #333; }
+      .label { font: 14px sans-serif; fill: #1a1a1a; }
+      .small { font: 12px sans-serif; fill: #555; }
+      .tiny { font: 10px sans-serif; fill: #666; }
+      .actor { fill: #e3f2fd; stroke: #1976d2; stroke-width: 2; }
+      .system { fill: #fff3e0; stroke: #f57c00; stroke-width: 2; }
+      .external { fill: #e8f5e9; stroke: #388e3c; stroke-width: 2; }
+      .arrow { stroke: #424242; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .arrow-return { stroke: #666; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead-return); stroke-dasharray: 5,5; }
+      .lifeline { stroke: #ccc; stroke-width: 1; stroke-dasharray: 5,5; }
+      .activation { fill: #fff3e0; stroke: #f57c00; stroke-width: 1; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#424242" />
+    </marker>
+    <marker id="arrowhead-return" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666" />
+    </marker>
+  </defs>
+
+  <text x="900" y="40" text-anchor="middle" class="title">Complete Verification Sequence Diagram</text>
+  <text x="900" y="70" text-anchor="middle" class="small">End-to-End Data Flow</text>
+
+  <!-- ACTORS -->
+  <rect x="50" y="100" width="120" height="60" class="actor" rx="5"/>
+  <text x="110" y="135" text-anchor="middle" class="label">Candidate</text>
+  
+  <rect x="220" y="100" width="120" height="60" class="actor" rx="5"/>
+  <text x="280" y="135" text-anchor="middle" class="label">HR User</text>
+  
+  <rect x="390" y="100" width="140" height="60" class="system" rx="5"/>
+  <text x="460" y="125" text-anchor="middle" class="small">Frontend</text>
+  <text x="460" y="145" text-anchor="middle" class="tiny">React</text>
+  
+  <rect x="580" y="100" width="140" height="60" class="system" rx="5"/>
+  <text x="650" y="125" text-anchor="middle" class="small">API</text>
+  <text x="650" y="145" text-anchor="middle" class="tiny">Flask</text>
+  
+  <rect x="770" y="100" width="160" height="60" class="system" rx="5"/>
+  <text x="850" y="125" text-anchor="middle" class="small">Doc Collection</text>
+  <text x="850" y="145" text-anchor="middle" class="tiny">Orchestrator</text>
+  
+  <rect x="980" y="100" width="160" height="60" class="system" rx="5"/>
+  <text x="1060" y="125" text-anchor="middle" class="small">Verification</text>
+  <text x="1060" y="145" text-anchor="middle" class="tiny">Orchestrator</text>
+  
+  <rect x="1190" y="100" width="140" height="60" class="external" rx="5"/>
+  <text x="1260" y="125" text-anchor="middle" class="small">OpenAI</text>
+  <text x="1260" y="145" text-anchor="middle" class="tiny">GPT-4</text>
+  
+  <rect x="1380" y="100" width="140" height="60" class="external" rx="5"/>
+  <text x="1450" y="125" text-anchor="middle" class="small">ElevenLabs</text>
+  <text x="1450" y="145" text-anchor="middle" class="tiny">Voice AI</text>
+  
+  <rect x="1570" y="100" width="140" height="60" class="external" rx="5"/>
+  <text x="1640" y="125" text-anchor="middle" class="small">GitHub</text>
+  <text x="1640" y="145" text-anchor="middle" class="tiny">API</text>
+
+  <!-- LIFELINES -->
+  <line x1="110" y1="160" x2="110" y2="2300" class="lifeline"/>
+  <line x1="280" y1="160" x2="280" y2="2300" class="lifeline"/>
+  <line x1="460" y1="160" x2="460" y2="2300" class="lifeline"/>
+  <line x1="650" y1="160" x2="650" y2="2300" class="lifeline"/>
+  <line x1="850" y1="160" x2="850" y2="2300" class="lifeline"/>
+  <line x1="1060" y1="160" x2="1060" y2="2300" class="lifeline"/>
+  <line x1="1260" y1="160" x2="1260" y2="2300" class="lifeline"/>
+  <line x1="1450" y1="160" x2="1450" y2="2300" class="lifeline"/>
+  <line x1="1640" y1="160" x2="1640" y2="2300" class="lifeline"/>
+
+  <!-- PHASE 1: INITIATION -->
+  <text x="50" y="200" class="subtitle">Phase 1: Initiation</text>
+  
+  <path d="M 280 220 L 460 220" class="arrow"/>
+  <text x="370" y="215" class="tiny">1. Create Verification</text>
+  
+  <path d="M 460 240 L 650 240" class="arrow"/>
+  <text x="555" y="235" class="tiny">2. POST /api/verifications</text>
+  
+  <rect x="640" y="250" width="20" height="40" class="activation"/>
+  <text x="700" y="270" class="tiny">Create session</text>
+  
+  <path d="M 650 300 L 460 300" class="arrow-return"/>
+  <text x="555" y="295" class="tiny">session_id, portal_url</text>
+  
+  <path d="M 460 320 L 110 320" class="arrow"/>
+  <text x="285" y="315" class="tiny">3. Email invitation</text>
+
+  <!-- PHASE 2: DOCUMENT COLLECTION -->
+  <text x="50" y="370" class="subtitle">Phase 2: Document Collection</text>
+  
+  <path d="M 110 390 L 460 390" class="arrow"/>
+  <text x="285" y="385" class="tiny">4. Open portal</text>
+  
+  <path d="M 460 410 L 650 410" class="arrow"/>
+  <text x="555" y="405" class="tiny">5. GET /api/chat/session</text>
+  
+  <path d="M 650 430 L 850 430" class="arrow"/>
+  <text x="750" y="425" class="tiny">6. Start session</text>
+  
+  <rect x="840" y="440" width="20" height="80" class="activation"/>
+  
+  <path d="M 850 460 L 1260 460" class="arrow"/>
+  <text x="1055" y="455" class="tiny">7. Generate greeting</text>
+  
+  <path d="M 1260 480 L 850 480" class="arrow-return"/>
+  <text x="1055" y="475" class="tiny">Welcome message</text>
+  
+  <path d="M 850 510 L 110 510" class="arrow-return"/>
+  <text x="480" y="505" class="tiny">8. "Hi! Please upload your CV"</text>
+  
+  <path d="M 110 540 L 460 540" class="arrow"/>
+  <text x="285" y="535" class="tiny">9. Upload CV</text>
+  
+  <path d="M 460 560 L 650 560" class="arrow"/>
+  <text x="555" y="555" class="tiny">10. POST /api/documents/upload</text>
+  
+  <path d="M 650 580 L 850 580" class="arrow"/>
+  <text x="750" y="575" class="tiny">11. Process document</text>
+  
+  <rect x="840" y="590" width="20" height="120" class="activation"/>
+  
+  <path d="M 850 610 L 1260 610" class="arrow"/>
+  <text x="1055" y="605" class="tiny">12. Extract CV data (GPT-4 Vision)</text>
+  
+  <rect x="1250" y="620" width="20" height="60" class="activation"/>
+  <text x="1300" y="650" class="tiny">OCR + parsing</text>
+  
+  <path d="M 1260 690 L 850 690" class="arrow-return"/>
+  <text x="1055" y="685" class="tiny">Employment, education, skills</text>
+  
+  <path d="M 850 720 L 110 720" class="arrow-return"/>
+  <text x="480" y="715" class="tiny">13. "Found 3 jobs. Upload paystub from Company X"</text>
+
+  <!-- PHASE 3: VERIFICATION ORCHESTRATION -->
+  <text x="50" y="770" class="subtitle">Phase 3: Verification Orchestration</text>
+  
+  <path d="M 110 790 L 460 790" class="arrow"/>
+  <text x="285" y="785" class="tiny">14. "I'm done uploading"</text>
+  
+  <path d="M 460 810 L 650 810" class="arrow"/>
+  <text x="555" y="805" class="tiny">15. POST /api/chat/finalize</text>
+  
+  <path d="M 650 830 L 850 830" class="arrow"/>
+  <text x="750" y="825" class="tiny">16. Finalize collection</text>
+  
+  <path d="M 850 850 L 1060 850" class="arrow"/>
+  <text x="955" y="845" class="tiny">17. Initiate verification</text>
+  
+  <rect x="1050" y="860" width="20" height="400" class="activation"/>
+  
+  <text x="1100" y="880" class="tiny">18. Generate plan</text>
+  <text x="1100" y="900" class="tiny">• Employment verifications</text>
+  <text x="1100" y="920" class="tiny">• Reference checks</text>
+  <text x="1100" y="940" class="tiny">• Technical analysis</text>
+
+  <!-- PARALLEL EXECUTION -->
+  <text x="50" y="990" class="subtitle">Phase 4: Parallel Verification</text>
+  
+  <path d="M 1060 1010 L 1450 1010" class="arrow"/>
+  <text x="1255" y="1005" class="tiny">19a. HR call</text>
+  
+  <rect x="1440" y="1020" width="20" height="80" class="activation"/>
+  <text x="1500" y="1060" class="tiny">Voice call</text>
+  
+  <path d="M 1450 1110 L 1060 1110" class="arrow-return"/>
+  <text x="1255" y="1105" class="tiny">Transcript</text>
+  
+  <path d="M 1060 1140 L 1450 1140" class="arrow"/>
+  <text x="1255" y="1135" class="tiny">19b. Reference call</text>
+  
+  <rect x="1440" y="1150" width="20" height="80" class="activation"/>
+  <text x="1500" y="1190" class="tiny">Voice call</text>
+  
+  <path d="M 1450 1240 L 1060 1240" class="arrow-return"/>
+  <text x="1255" y="1235" class="tiny">Transcript</text>
+  
+  <path d="M 1060 1270 L 1640 1270" class="arrow"/>
+  <text x="1350" y="1265" class="tiny">19c. GitHub analysis</text>
+  
+  <rect x="1630" y="1280" width="20" height="100" class="activation"/>
+  <text x="1680" y="1330" class="tiny">Fetch repos</text>
+  <text x="1680" y="1350" class="tiny">Analyze commits</text>
+  
+  <path d="M 1640 1390 L 1060 1390" class="arrow-return"/>
+  <text x="1350" y="1385" class="tiny">Profile data, code quality</text>
+
+  <!-- PHASE 5: FRAUD DETECTION -->
+  <text x="50" y="1440" class="subtitle">Phase 5: Fraud Detection</text>
+  
+  <text x="1100" y="1470" class="tiny">20. Analyze all data</text>
+  <text x="1100" y="1490" class="tiny">• Timeline conflicts</text>
+  <text x="1100" y="1510" class="tiny">• Unverified claims</text>
+  <text x="1100" y="1530" class="tiny">• Technical mismatches</text>
+  <text x="1100" y="1550" class="tiny">• Generate fraud flags</text>
+
+  <!-- PHASE 6: REPORT GENERATION -->
+  <text x="50" y="1600" class="subtitle">Phase 6: Report Generation</text>
+  
+  <path d="M 1060 1620 L 1260 1620" class="arrow"/>
+  <text x="1160" y="1615" class="tiny">21. Generate report</text>
+  
+  <rect x="1250" y="1630" width="20" height="120" class="activation"/>
+  
+  <text x="1300" y="1660" class="tiny">22. Synthesize narrative</text>
+  <text x="1300" y="1680" class="tiny">• Employment summaries</text>
+  <text x="1300" y="1700" class="tiny">• Reference quotes</text>
+  <text x="1300" y="1720" class="tiny">• Risk assessment</text>
+  <text x="1300" y="1740" class="tiny">• Interview questions</text>
+  
+  <path d="M 1260 1760 L 1060 1760" class="arrow-return"/>
+  <text x="1160" y="1755" class="tiny">Complete report</text>
+  
+  <path d="M 1060 1790 L 650 1790" class="arrow-return"/>
+  <text x="855" y="1785" class="tiny">23. Save to database</text>
+  
+  <path d="M 650 1820 L 280 1820" class="arrow"/>
+  <text x="465" y="1815" class="tiny">24. Email notification</text>
+
+  <!-- PHASE 7: REPORT VIEWING -->
+  <text x="50" y="1870" class="subtitle">Phase 7: Report Viewing</text>
+  
+  <path d="M 280 1890 L 460 1890" class="arrow"/>
+  <text x="370" y="1885" class="tiny">25. View report</text>
+  
+  <path d="M 460 1910 L 650 1910" class="arrow"/>
+  <text x="555" y="1905" class="tiny">26. GET /api/verifications/{id}</text>
+  
+  <rect x="640" y="1920" width="20" height="60" class="activation"/>
+  <text x="700" y="1950" class="tiny">Fetch from DB</text>
+  
+  <path d="M 650 1990 L 460 1990" class="arrow-return"/>
+  <text x="555" y="1985" class="tiny">Report JSON</text>
+  
+  <path d="M 460 2010 L 280 2010" class="arrow-return"/>
+  <text x="370" y="2005" class="tiny">27. Display report</text>
+
+  <!-- REAL-TIME UPDATES -->
+  <text x="50" y="2060" class="subtitle">Real-time Status Updates (WebSocket)</text>
+  
+  <path d="M 650 2080 L 460 2080" class="arrow"/>
+  <text x="555" y="2075" class="tiny">verification.status_changed</text>
+  
+  <path d="M 460 2100 L 280 2100" class="arrow"/>
+  <text x="370" y="2095" class="tiny">Update UI</text>
+  
+  <path d="M 650 2130 L 460 2130" class="arrow"/>
+  <text x="555" y="2125" class="tiny">verification.task_completed</text>
+  
+  <path d="M 460 2150 L 280 2150" class="arrow"/>
+  <text x="370" y="2145" class="tiny">Update progress</text>
+  
+  <path d="M 650 2180 L 460 2180" class="arrow"/>
+  <text x="555" y="2175" class="tiny">verification.report_ready</text>
+  
+  <path d="M 460 2200 L 280 2200" class="arrow"/>
+  <text x="370" y="2195" class="tiny">Show notification</text>
+
+  <!-- TIMING INFO -->
+  <rect x="50" y="2250" width="1700" height="100" class="system" rx="10"/>
+  <text x="70" y="2280" class="subtitle">Timing Estimates</text>
+  <text x="100" y="2310" class="small">• Document Collection: 5-15 minutes (conversational)</text>
+  <text x="100" y="2330" class="small">• Verification Execution: 30-60 minutes (parallel calls, API requests)</text>
+  <text x="900" y="2310" class="small">• Report Generation: 10-30 seconds (AI synthesis)</text>
+  <text x="900" y="2330" class="small">• Total Time: 48 hours target (with retries and timeouts)</text>
+
+  <!-- Footer -->
+  <text x="900" y="2380" text-anchor="middle" class="small" style="fill: #999;">
+    Complete End-to-End Flow • 27 Steps • 7 Phases • Real-time Updates
+  </text>
+</svg>
