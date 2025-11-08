@@ -1,51 +1,40 @@
-# Environment Variables
+## Environment / Secrets
+# Environment variables (contains sensitive API keys)
 .env
 .env.local
 .env.*.local
 *.env
 
-# Python
+## Python
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-.pytest_cache/
-.coverage
-htmlcov/
-*.cover
-.hypothesis/
-.mypy_cache/
-.dmypy.json
-dmypy.json
 
-# Virtual Environments
+## Virtual environments
 venv/
 env/
 ENV/
-env.bak/
-venv.bak/
 .venv/
 
-# Node / Frontend
+## Build / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+MANIFEST
+
+## Testing
+.pytest_cache/
+.coverage
+coverage/
+*.cover
+.hypothesis/
+.mypy_cache/
+
+## Node / Frontend
 node_modules/
 npm-debug.log*
 yarn-debug.log*
@@ -58,77 +47,58 @@ out/
 .parcel-cache
 .npm
 
-# IDE / Editor
+## IDE / Editor
 .vscode/
 !.vscode/mcp.json
 .idea/
+*.sublime-project
+*.sublime-workspace
 *.swp
 *.swo
 *~
-.DS_Store
-*.sublime-project
-*.sublime-workspace
 
-# Logs
+## OS files
+.DS_Store
+Thumbs.db
+
+## Logs
 *.log
 logs/
 *.log.*
 
-# Database
+## Transcripts (may contain sensitive conversation data)
+transcripts/
+
+## Database
 *.db
 *.sqlite
 *.sqlite3
 
-# Temp files
+## Temp files
 tmp/
 temp/
 *.tmp
 
-# OS
-Thumbs.db
-.DS_Store
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# Testing
-.pytest_cache/
-.coverage
-coverage/
-*.cover
-.hypothesis/
-
-# Supabase
+## Supabase
 .supabase/
 
-# Demo files (optional - remove if you want to commit demo PDFs)
+## Demo files (optional)
 demo/*.pdf
 
-# Secrets and API keys
+## Secrets and API keys (avoid committing credentials)
 *secret*
 *key*
+
+## Repository specific allow-lists
 !backend/mocks/*
 !frontend/lib/*
 
-# Build outputs
-*.pyc
-*.pyo
-*.pyd
-.Python
-build/
-dist/
-
-# Package files
-*.egg
-*.egg-info/
-pip-log.txt
-pip-delete-this-directory.txt
-
-# TypeScript
+## TypeScript
 *.tsbuildinfo
 
-# Local development
+## Local development overrides
 .env.development.local
 .env.test.local
 .env.production.local
 backend/test_results.txt
+

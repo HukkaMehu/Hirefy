@@ -1,0 +1,33 @@
+Subject: Reference Request for {candidate_name}
+
+Dear {reference_name},
+
+I hope this message finds you well. I'm reaching out because {candidate_name} has listed you as a professional reference, noting that you worked together as their {relationship}.
+
+{candidate_name} is being considered for a position with our organization, and I would greatly value your insights about their professional capabilities and work style. Your candid feedback will help us make an informed hiring decision.
+
+I'd appreciate your thoughts on the following areas:
+
+1. Working Relationship: Can you confirm your professional relationship with {candidate_name} and the timeframe you worked together?
+
+2. Responsibilities & Skills: What were {candidate_name}'s primary responsibilities, and which skills did they demonstrate most effectively?
+
+3. Work Quality: How would you describe the quality of {candidate_name}'s work and their overall performance?
+
+4. Key Strengths: What specific strengths or accomplishments stood out during your time working with {candidate_name}?
+
+5. Teamwork & Collaboration: How would you characterize {candidate_name}'s ability to work with colleagues and contribute to team objectives?
+
+6. Professional Conduct: Can you speak to {candidate_name}'s professionalism, reliability, and work ethic?
+
+7. Recommendation: Would you recommend {candidate_name} for future employment? Are there any specific roles or environments where you think they would excel?
+
+Please feel free to share any additional observations or examples that might be helpful in understanding {candidate_name}'s professional capabilities.
+
+You can reply directly to this email with your feedback. I understand that providing references takes time, and I truly appreciate your willingness to help.
+
+Thank you for your consideration.
+
+Best regards,
+{sender_name}
+{sender_email}

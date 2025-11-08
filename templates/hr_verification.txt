@@ -1,0 +1,26 @@
+Subject: Employment Verification Request for {candidate_name}
+
+Dear HR Team,
+
+I am writing to request verification of employment information for {candidate_name}, who has listed your organization as a previous employer in their application materials.
+
+Please confirm or correct the following employment details:
+
+Employee Name: {candidate_name}
+Job Title: {job_title}
+Employment Start Date: {start_date}
+Employment End Date: {end_date}
+
+To complete this verification, please reply to this email with:
+- Confirmation that the above information is accurate, OR
+- Any corrections to the job title or employment dates listed above
+
+This verification is part of our standard background check process. All information provided will be kept confidential and used solely for employment verification purposes.
+
+If you have any questions or require additional information to process this request, please don't hesitate to contact me directly at this email address.
+
+Thank you for your prompt attention to this matter.
+
+Best regards,
+{sender_name}
+{sender_email}
