@@ -131,3 +131,4 @@ pip-delete-this-directory.txt
 .env.development.local
 .env.test.local
 .env.production.local
+backend/test_results.txt

@@ -34,7 +34,14 @@ def analyze_github_profile(username: str) -> dict:
             headers=headers,
             timeout=10
         )
+        
+        if repos_response.status_code != 200:
+            return {'error': f'Failed to fetch repositories: {repos_response.status_code}'}
+        
         repos = repos_response.json()
+        
+        if not isinstance(repos, list):
+            return {'error': 'Invalid response from GitHub API'}
         
         # Analyze repositories
         languages = defaultdict(int)
