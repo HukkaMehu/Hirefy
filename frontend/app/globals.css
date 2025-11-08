@@ -195,4 +195,54 @@
     pointer-events: none;
     z-index: 0;
   }
+  
+  /* Enhanced Hover Effects */
+  .hover-lift {
+    transition: all 0.2s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+  
+  .hover-scale {
+    transition: all 0.2s ease;
+  }
+  
+  .hover-scale:hover {
+    transform: scale(1.02);
+  }
+  
+  .hover-glow {
+    transition: all 0.3s ease;
+  }
+  
+  .hover-glow:hover {
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+  }
+  
+  /* Loading Skeleton */
+  .skeleton {
+    @apply animate-pulse bg-gray-700/50 rounded;
+  }
+  
+  /* Smooth Transitions */
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Empty State */
+  .empty-state {
+    @apply flex flex-col items-center justify-center min-h-[400px] text-center;
+  }
+  
+  /* Card Hover Enhancement */
+  .card-interactive {
+    @apply transition-all duration-200 hover:bg-white/8 hover:border-purple-500/30 cursor-pointer;
+  }
+  
+  /* Focus Visible Enhancement */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-purple-500 ring-offset-2 ring-offset-gray-900;
+  }
 }

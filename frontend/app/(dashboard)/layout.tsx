@@ -232,7 +232,17 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           className="lg:ml-64 min-h-screen"
         >
           <div className="p-6 lg:p-8">
-            {children}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={pathname}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                {children}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </motion.main>
       </SidebarProvider>

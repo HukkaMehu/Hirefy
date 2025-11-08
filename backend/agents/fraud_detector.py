@@ -1,6 +1,9 @@
 from typing import Literal
 from dataclasses import dataclass, asdict
 from datetime import datetime
+from config import get_settings
+
+settings = get_settings()
 
 FraudLevel = Literal["green", "yellow", "red"]
 
@@ -21,6 +24,9 @@ class FraudDetector:
             self._check_github_consistency,
             self._check_employment_timeline,
             self._check_reference_sentiment,
+            self._check_job_title_consistency,
+            self._check_company_existence,
+            self._check_social_media_presence,
         ]
     
     def analyze(
@@ -68,14 +74,9 @@ class FraudDetector:
         github_langs = [lang.lower() for lang in github.get("repositories", {}).get("languages", {}).keys()]
         
         # Map frameworks to languages
-        skill_map = {
-            "react": "javascript",
-            "node.js": "javascript",
-            "django": "python",
-            "flask": "python"
-        }
+        skill_map = settings.skill_map
         
-        for skill in ["python", "javascript", "typescript", "java", "go", "rust"]:
+        for skill in settings.skills_to_check:
             if skill in resume_skills:
                 mapped = skill_map.get(skill, skill)
                 
@@ -99,7 +100,7 @@ class FraudDetector:
         for i in range(len(jobs) - 1):
             gap_months = self._calculate_gap_months(jobs[i].get("end_date", ""), jobs[i+1].get("start_date", ""))
             
-            if gap_months > 6:
+            if gap_months > settings.employment_gap_threshold:
                 flags.append(FraudFlag(
                     type="employment_gap",
                     severity="medium",
@@ -124,7 +125,7 @@ class FraudDetector:
         avg_rating = sum(r.get("performance_rating", 7) for r in refs) / len(refs)
         would_not_rehire = [r for r in refs if not r.get("would_rehire", True)]
         
-        if avg_rating < 6.5:
+        if avg_rating < settings.avg_rating_threshold:
             flags.append(FraudFlag(
                 type="low_performance_ratings",
                 severity="high",
@@ -133,7 +134,7 @@ class FraudDetector:
                 evidence={"avg_rating": avg_rating, "total_references": len(refs)}
             ))
         
-        if len(would_not_rehire) >= 2:
+        if len(would_not_rehire) >= settings.rehire_concern_threshold:
             flags.append(FraudFlag(
                 type="rehire_concerns",
                 severity="high",
@@ -142,6 +143,97 @@ class FraudDetector:
                 evidence={"would_not_rehire_count": len(would_not_rehire)}
             ))
         
+        return flags
+
+    def _check_job_title_consistency(self, resume, github, refs) -> list:
+        """Check for inflated or inconsistent job titles"""
+        flags = []
+        
+        unprofessional_titles = ["ninja", "guru", "rockstar", "wizard"]
+        
+        for job in resume.get("employment_history", []):
+            title = job.get("title", "").lower()
+            if any(unprofessional in title for unprofessional in unprofessional_titles):
+                flags.append(FraudFlag(
+                    type="unprofessional_job_title",
+                    severity="low",
+                    message=f"Unprofessional job title: '{job.get('title')}'",
+                    category="Employment History",
+                    evidence={"job_title": job.get('title')}
+                ))
+        
+        return flags
+
+    def _check_company_existence(self, resume, github, refs) -> list:
+        """Check if companies listed in the resume have a web presence"""
+        flags = []
+        
+        # This is a mock implementation. In a real implementation, we would
+        # use a more reliable method to check for company existence.
+        import requests
+        
+        for job in resume.get("employment_history", []):
+            company_name = job.get("company", "")
+            if company_name:
+                try:
+                    # A very basic check to see if a website exists for the company
+                    response = requests.get(f"https://{company_name.replace(' ', '').lower()}.com", timeout=5)
+                    if response.status_code != 200:
+                        flags.append(FraudFlag(
+                            type="company_not_found",
+                            severity="medium",
+                            message=f"Could not verify existence of company: {company_name}",
+                            category="Employment History",
+                            evidence={"company_name": company_name}
+                        ))
+                except requests.exceptions.RequestException:
+                    flags.append(FraudFlag(
+                        type="company_not_found",
+                        severity="medium",
+                        message=f"Could not verify existence of company: {company_name}",
+                        category="Employment History",
+                        evidence={"company_name": company_name}
+                    ))
+
+        return flags
+
+    def _check_social_media_presence(self, resume, github, refs) -> list:
+        """Check for a LinkedIn profile and consistency"""
+        flags = []
+        
+        linkedin_url = resume.get("linkedin_url")
+        
+        if not linkedin_url:
+            flags.append(FraudFlag(
+                type="no_linkedin_profile",
+                severity="low",
+                message="No LinkedIn profile provided",
+                category="Social Media",
+                evidence={}
+            ))
+        else:
+            # This is a mock implementation. In a real implementation, we would
+            # use a web scraping service to get the LinkedIn profile data.
+            import requests
+            try:
+                response = requests.get(linkedin_url, timeout=5)
+                if response.status_code != 200:
+                    flags.append(FraudFlag(
+                        type="linkedin_profile_not_found",
+                        severity="medium",
+                        message=f"LinkedIn profile not found at: {linkedin_url}",
+                        category="Social Media",
+                        evidence={"linkedin_url": linkedin_url}
+                    ))
+            except requests.exceptions.RequestException:
+                flags.append(FraudFlag(
+                    type="linkedin_profile_not_found",
+                    severity="medium",
+                    message=f"LinkedIn profile not found at: {linkedin_url}",
+                    category="Social Media",
+                    evidence={"linkedin_url": linkedin_url}
+                ))
+
         return flags
     
     def _calculate_risk_level(self, flags: list) -> FraudLevel:

@@ -90,7 +90,7 @@ class HRVerificationHandler:
             agent_id=self.agent_id,
             first_message=first_message,
             questions=questions,
-            max_duration_seconds=600  # 10 minutes maximum
+            max_duration_seconds=int(os.getenv('MAX_CALL_DURATION_SECONDS', 600))  # 10 minutes maximum
         )
     
     def execute_call(

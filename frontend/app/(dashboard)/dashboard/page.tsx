@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import { StatCard } from '@/src/components/dashboard/StatCard';
 import { AgentCard } from '@/src/components/dashboard/AgentCard';
 import { RiskBadge, getRiskLevel } from '@/src/components/dashboard/RiskBadge';
+import { SkeletonStatCard, SkeletonTableRow } from '@/src/components/dashboard/SkeletonCard';
 import { Button } from '@/src/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/src/components/ui/card';
 import { staggerChildren, fadeIn } from '@/lib/animations';
@@ -147,30 +148,41 @@ export default function DashboardPage() {
         variants={staggerChildren}
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
       >
-        <StatCard
-          title="Total Verifications"
-          value={stats.total}
-          icon={Users}
-          trend={{ value: 12, direction: 'up' }}
-        />
-        <StatCard
-          title="In Progress"
-          value={stats.inProgress}
-          icon={Clock}
-          trend={{ value: 2, direction: 'up' }}
-        />
-        <StatCard
-          title="Completed"
-          value={stats.completed}
-          icon={CheckCircle}
-          trend={{ value: 10, direction: 'up' }}
-        />
-        <StatCard
-          title="Flagged"
-          value={stats.flagged}
-          icon={AlertTriangle}
-          trend={{ value: 8, direction: 'down' }}
-        />
+        {loading ? (
+          <>
+            <SkeletonStatCard />
+            <SkeletonStatCard />
+            <SkeletonStatCard />
+            <SkeletonStatCard />
+          </>
+        ) : (
+          <>
+            <StatCard
+              title="Total Verifications"
+              value={stats.total}
+              icon={Users}
+              trend={{ value: 12, direction: 'up' }}
+            />
+            <StatCard
+              title="In Progress"
+              value={stats.inProgress}
+              icon={Clock}
+              trend={{ value: 2, direction: 'up' }}
+            />
+            <StatCard
+              title="Completed"
+              value={stats.completed}
+              icon={CheckCircle}
+              trend={{ value: 10, direction: 'up' }}
+            />
+            <StatCard
+              title="Flagged"
+              value={stats.flagged}
+              icon={AlertTriangle}
+              trend={{ value: 8, direction: 'down' }}
+            />
+          </>
+        )}
       </motion.div>
 
       {/* Agents Section */}
@@ -203,12 +215,24 @@ export default function DashboardPage() {
           <CardContent>
             <div className="space-y-3">
               {loading ? (
-                <div className="text-center py-8 text-[#6b7280]">
-                  Loading recent activity...
-                </div>
+                <>
+                  <SkeletonTableRow />
+                  <SkeletonTableRow />
+                  <SkeletonTableRow />
+                  <SkeletonTableRow />
+                  <SkeletonTableRow />
+                </>
               ) : recentActivity.length === 0 ? (
-                <div className="text-center py-8 text-[#6b7280]">
-                  No recent activity yet
+                <div className="empty-state py-12">
+                  <FileSearch className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                  <p className="text-[#6b7280] mb-4">No verifications yet</p>
+                  <Button
+                    onClick={() => router.push('/dashboard/new')}
+                    className="bg-gradient-to-r from-purple-600 to-blue-600"
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Start First Verification
+                  </Button>
                 </div>
               ) : (
                 recentActivity.map((verification) => {

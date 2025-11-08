@@ -9,6 +9,7 @@ verification and reference calls using ElevenLabs conversational AI.
 import argparse
 import sys
 import os
+import logging
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -185,9 +186,11 @@ def handle_call_command(args):
             return 1
             
     except ValueError as e:
+        logging.exception("Invalid input")
         print(f"\n❌ Invalid input: {e}", file=sys.stderr)
         return 1
     except Exception as e:
+        logging.exception("An unexpected error occurred")
         print(f"\n❌ Unexpected error: {e}", file=sys.stderr)
         return 1
 
@@ -269,10 +272,12 @@ def handle_email_command(args):
             return 1
             
     except ValueError as e:
+        logging.exception("Invalid input")
         print(f"\n❌ Invalid input: {e}", file=sys.stderr)
         print("\n💡 Please check your input parameters and try again.", file=sys.stderr)
         return 1
     except Exception as e:
+        logging.exception("An unexpected error occurred")
         print(f"\n❌ Unexpected error: {e}", file=sys.stderr)
         return 1
 
@@ -444,6 +449,7 @@ Always end your final message with "Thank you for taking the time to provide thi
             return 1
             
     except Exception as e:
+        logging.exception("An unexpected error occurred")
         print(f"\n❌ Unexpected error: {e}", file=sys.stderr)
         return 1
 

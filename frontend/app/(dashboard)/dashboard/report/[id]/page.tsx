@@ -2,12 +2,9 @@
 
 import { motion } from 'framer-motion';
 import { 
-  CheckCircle, 
-  AlertTriangle, 
-  XCircle, 
   Github, 
   Users, 
-  AlertCircle, 
+  AlertTriangle, 
   MessageSquare,
   Download,
   Phone,
@@ -16,7 +13,11 @@ import {
   ArrowLeft,
   Copy,
   Check,
-  Loader2
+  Loader2,
+  Share2,
+  XCircle,
+  AlertCircle,
+  CheckCircle
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -24,103 +25,10 @@ import { RiskBadge, getRiskLevel } from '@/src/components/dashboard/RiskBadge';
 import { Button } from '@/src/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/src/components/ui/card';
 import { Badge } from '@/src/components/ui/badge';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/src/components/ui/accordion';
 import { Separator } from '@/src/components/ui/separator';
 import { staggerChildren, fadeIn, slideUp } from '@/lib/animations';
 import { toast } from 'sonner';
 import { getVerification, type Verification } from '@/lib/supabase';
-
-// Mock data - will be replaced with Supabase query
-const mockReport = {
-  id: '1',
-  candidateName: 'Sarah Johnson',
-  position: 'Senior Software Engineer',
-  company: 'Tech Corp',
-  email: 'sarah.johnson@example.com',
-  phone: '+1 (555) 123-4567',
-  linkedIn: 'linkedin.com/in/sarahjohnson',
-  riskScore: 15,
-  status: 'completed',
-  timestamp: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
-  
-  summary: 'Candidate verification completed successfully. Minor discrepancies found in employment dates but verified through HR call. Overall low-risk profile with strong technical background.',
-  
-  githubAnalysis: {
-    commits: 1247,
-    repositories: 23,
-    accountAge: '4.2 years',
-    languages: ['TypeScript', 'Python', 'Go', 'Rust'],
-    suspicious: false,
-    contributionLevel: 'Very Active',
-  },
-  
-  hrVerification: {
-    contacted: true,
-    verified: true,
-    company: 'Tech Corp',
-    position: 'Senior Software Engineer',
-    startDate: '2021-03-01',
-    endDate: '2024-06-30',
-    notes: 'Employment verified. Candidate left in good standing. Eligible for rehire.',
-    transcript: `HR: Thank you for calling Tech Corp HR. How can I help you?\n\nAgent: Hi, I'm verifying employment for Sarah Johnson who worked as a Senior Software Engineer.\n\nHR: Yes, I can confirm Sarah Johnson worked here from March 2021 to June 2024 as a Senior Software Engineer. She left voluntarily and is eligible for rehire.\n\nAgent: Thank you for confirming. Were there any performance issues?\n\nHR: No, she was a valued member of the team with consistently strong performance reviews.`,
-  },
-  
-  referenceVerification: {
-    provided: 3,
-    contacted: 3,
-    verified: 2,
-    responseRate: '67%',
-    flagged: 0,
-    references: [
-      {
-        name: 'John Smith',
-        relationship: 'Former Manager',
-        company: 'Tech Corp',
-        verified: true,
-        feedback: 'Excellent engineer, strong problem-solving skills, great team player.',
-      },
-      {
-        name: 'Emily Chen',
-        relationship: 'Former Colleague',
-        company: 'Tech Corp',
-        verified: true,
-        feedback: 'Very collaborative, always willing to help teammates, writes clean code.',
-      },
-      {
-        name: 'Michael Brown',
-        relationship: 'Former Tech Lead',
-        company: 'Tech Corp',
-        verified: false,
-        feedback: 'Did not respond to verification request.',
-      },
-    ],
-  },
-  
-  fraudFlags: [
-    {
-      severity: 'low',
-      type: 'Date Discrepancy',
-      description: 'Employment end date on resume (July 2024) differs from HR records (June 2024) by 1 month.',
-      resolved: true,
-    },
-  ],
-  
-  interviewQuestions: [
-    'Can you describe a challenging technical problem you solved at Tech Corp?',
-    'Tell me about your experience working with TypeScript and Python in production environments.',
-    'How do you approach code reviews and mentoring junior developers?',
-    'What prompted your decision to leave Tech Corp after 3 years?',
-    'Describe your experience with distributed systems and microservices architecture.',
-  ],
-  
-  timeline: [
-    { date: new Date(Date.now() - 5 * 60 * 1000).toISOString(), event: 'Verification completed', type: 'success' },
-    { date: new Date(Date.now() - 15 * 60 * 1000).toISOString(), event: 'Reference checks completed', type: 'info' },
-    { date: new Date(Date.now() - 30 * 60 * 1000).toISOString(), event: 'HR verification call completed', type: 'info' },
-    { date: new Date(Date.now() - 45 * 60 * 1000).toISOString(), event: 'GitHub analysis completed', type: 'info' },
-    { date: new Date(Date.now() - 60 * 60 * 1000).toISOString(), event: 'Verification initiated', type: 'info' },
-  ],
-};
 
 function getRelativeTime(timestamp: string): string {
   const now = Date.now();
@@ -138,7 +46,7 @@ function getRelativeTime(timestamp: string): string {
   return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
 }
 
-export default function ReportDetailPage({ params }: { params: { id: string } }) {
+export default function ReportPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [verification, setVerification] = useState<Verification | null>(null);
@@ -176,8 +84,8 @@ export default function ReportDetailPage({ params }: { params: { id: string } })
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <XCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
-          <p className="text-gray-400">Verification not found</p>
-          <Button onClick={() => router.push('/dashboard/verifications')} className="mt-4">
+          <p className="text-gray-400 mb-4">Verification not found</p>
+          <Button onClick={() => router.push('/dashboard/verifications')}>
             Back to Verifications
           </Button>
         </div>
@@ -190,8 +98,8 @@ export default function ReportDetailPage({ params }: { params: { id: string } })
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <AlertCircle className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
-          <p className="text-gray-400">Verification is still in progress</p>
-          <Button onClick={() => router.push(`/dashboard/progress/${params.id}`)} className="mt-4">
+          <p className="text-gray-400 mb-4">Verification is still in progress</p>
+          <Button onClick={() => router.push(`/dashboard/progress/${params.id}`)}>
             View Progress
           </Button>
         </div>
@@ -228,7 +136,7 @@ export default function ReportDetailPage({ params }: { params: { id: string } })
       className="space-y-6"
     >
       {/* Header */}
-      <motion.div variants={fadeIn} className="flex items-center justify-between">
+      <motion.div variants={fadeIn} className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <Button
             variant="ghost"
@@ -245,7 +153,7 @@ export default function ReportDetailPage({ params }: { params: { id: string } })
         </div>
         <div className="flex gap-2">
           <Button onClick={shareReport} variant="outline" className="border-white/10">
-            <Copy className="w-4 h-4 mr-2" />
+            <Share2 className="w-4 h-4 mr-2" />
             Share
           </Button>
           <Button onClick={downloadReport} className="bg-gradient-to-r from-purple-600 to-blue-600">
@@ -368,165 +276,47 @@ export default function ReportDetailPage({ params }: { params: { id: string } })
               </CardContent>
             </Card>
           )}
-                      {new Date(mockReport.hrVerification.endDate).toLocaleDateString()}
-                    </div>
-                  </div>
-                </div>
-                <Separator className="bg-white/10" />
-                <div>
-                  <p className="text-sm text-[#9ca3af] mb-2">Notes:</p>
-                  <p className="text-white">{mockReport.hrVerification.notes}</p>
-                </div>
-                <Accordion type="single" collapsible>
-                  <AccordionItem value="transcript" className="border-white/10">
-                    <AccordionTrigger className="text-white hover:text-purple-400">
-                      View Call Transcript
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <div className="bg-black/30 rounded-lg p-4 font-mono text-sm text-[#9ca3af] whitespace-pre-wrap">
-                        {mockReport.hrVerification.transcript}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Reference Checks */}
-          <Card className="glass border-white/10">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-white">
-                <Users className="w-5 h-5 text-blue-400" />
-                Reference Verification
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-4 gap-4 text-center">
-                <div>
-                  <div className="text-2xl font-bold text-white">{mockReport.referenceVerification.provided}</div>
-                  <div className="text-sm text-[#6b7280]">Provided</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-white">{mockReport.referenceVerification.contacted}</div>
-                  <div className="text-sm text-[#6b7280]">Contacted</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-green-400">{mockReport.referenceVerification.verified}</div>
-                  <div className="text-sm text-[#6b7280]">Verified</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-blue-400">{mockReport.referenceVerification.responseRate}</div>
-                  <div className="text-sm text-[#6b7280]">Response Rate</div>
-                </div>
-              </div>
-              <Separator className="bg-white/10" />
-              <div className="space-y-3">
-                {mockReport.referenceVerification.references.map((ref, index) => (
-                  <div key={index} className="glass-hover p-4 rounded-lg">
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <div className="font-medium text-white">{ref.name}</div>
-                        <div className="text-sm text-[#6b7280]">{ref.relationship} • {ref.company}</div>
-                      </div>
-                      {ref.verified ? (
-                        <CheckCircle className="w-5 h-5 text-green-400" />
-                      ) : (
-                        <XCircle className="w-5 h-5 text-red-400" />
-                      )}
-                    </div>
-                    <p className="text-sm text-[#9ca3af]">{ref.feedback}</p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Interview Questions */}
-          <Card className="glass border-white/10">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-white">
-                <MessageSquare className="w-5 h-5 text-purple-400" />
-                Recommended Interview Questions
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {mockReport.interviewQuestions.map((question, index) => (
-                  <div key={index} className="flex items-start gap-3 p-4 glass-hover rounded-lg group">
-                    <div className="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-sm flex-shrink-0">
-                      {index + 1}
-                    </div>
-                    <p className="flex-1 text-white">{question}</p>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => copyToClipboard(question, index)}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      {copiedIndex === index ? (
-                        <Check className="w-4 h-4 text-green-400" />
-                      ) : (
-                        <Copy className="w-4 h-4" />
-                      )}
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Sidebar */}
-        <motion.div variants={fadeIn} className="space-y-6">
-          {/* Timeline */}
-          <Card className="glass border-white/10">
-            <CardHeader>
-              <CardTitle className="text-white">Verification Timeline</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {mockReport.timeline.map((item, index) => (
-                  <div key={index} className="flex gap-3">
-                    <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${
-                      item.type === 'success' ? 'bg-green-400' : 'bg-blue-400'
-                    }`} />
-                    <div>
-                      <div className="text-sm text-white">{item.event}</div>
-                      <div className="text-xs text-[#6b7280]">{getRelativeTime(item.date)}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
 
           {/* Fraud Flags */}
-          {mockReport.fraudFlags.length > 0 && (
-            <Card className="glass border-orange-500/30">
+          {result.fraud_flags && result.fraud_flags.length > 0 && (
+            <Card className="glass border-red-500/30">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-white">
-                  <AlertCircle className="w-5 h-5 text-orange-400" />
-                  Fraud Flags
+                  <AlertTriangle className="w-5 h-5 text-red-400" />
+                  Fraud Flags ({result.fraud_flags.length})
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {mockReport.fraudFlags.map((flag, index) => (
-                    <div key={index} className="glass-hover p-4 rounded-lg">
+                  {result.fraud_flags.map((flag, index) => (
+                    <div 
+                      key={index} 
+                      className={`p-4 rounded-lg border ${
+                        flag.severity === 'critical' ? 'border-red-500/50 bg-red-500/10' :
+                        flag.severity === 'high' ? 'border-orange-500/50 bg-orange-500/10' :
+                        flag.severity === 'medium' ? 'border-yellow-500/50 bg-yellow-500/10' :
+                        'border-blue-500/50 bg-blue-500/10'
+                      }`}
+                    >
                       <div className="flex items-start justify-between mb-2">
-                        <Badge 
-                          variant="outline" 
-                          className={`${
-                            flag.severity === 'low' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30' :
-                            flag.severity === 'medium' ? 'bg-orange-500/10 text-orange-400 border-orange-500/30' :
-                            'bg-red-500/10 text-red-400 border-red-500/30'
-                          }`}
-                        >
-                          {flag.type}
-                        </Badge>
+                        <div className="flex items-center gap-2">
+                          <Badge 
+                            variant="outline" 
+                            className={`
+                              ${flag.severity === 'critical' ? 'border-red-400 text-red-400' :
+                                flag.severity === 'high' ? 'border-orange-400 text-orange-400' :
+                                flag.severity === 'medium' ? 'border-yellow-400 text-yellow-400' :
+                                'border-blue-400 text-blue-400'}
+                            `}
+                          >
+                            {flag.severity.toUpperCase()}
+                          </Badge>
+                          <span className="font-medium text-white">{flag.type}</span>
+                        </div>
                         {flag.resolved && (
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Badge variant="outline" className="border-green-400 text-green-400">
+                            Resolved
+                          </Badge>
                         )}
                       </div>
                       <p className="text-sm text-[#9ca3af]">{flag.description}</p>
@@ -536,8 +326,165 @@ export default function ReportDetailPage({ params }: { params: { id: string } })
               </CardContent>
             </Card>
           )}
+
+          {/* Interview Questions */}
+          {result.interview_questions && result.interview_questions.length > 0 && (
+            <Card className="glass border-white/10">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-white">
+                  <MessageSquare className="w-5 h-5 text-purple-400" />
+                  Recommended Interview Questions
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {result.interview_questions.map((question, index) => (
+                    <div key={index} className="flex items-start gap-3 p-4 glass-hover rounded-lg group">
+                      <div className="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-sm flex-shrink-0">
+                        {index + 1}
+                      </div>
+                      <p className="flex-1 text-white">{question}</p>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => copyToClipboard(question, index)}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        {copiedIndex === index ? (
+                          <Check className="w-4 h-4 text-green-400" />
+                        ) : (
+                          <Copy className="w-4 h-4" />
+                        )}
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </motion.div>
+
+        {/* Sidebar */}
+        <motion.div variants={fadeIn} className="space-y-6">
+          {/* Employment Details */}
+          {(verification.company || verification.position) && (
+            <Card className="glass border-white/10">
+              <CardHeader>
+                <CardTitle className="text-white">Employment Details</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm">
+                {verification.company && (
+                  <div>
+                    <div className="text-[#6b7280]">Company</div>
+                    <div className="text-white font-medium">{verification.company}</div>
+                  </div>
+                )}
+                {verification.position && (
+                  <div>
+                    <div className="text-[#6b7280]">Position</div>
+                    <div className="text-white font-medium">{verification.position}</div>
+                  </div>
+                )}
+                {verification.employment_start && (
+                  <div>
+                    <div className="text-[#6b7280]">Start Date</div>
+                    <div className="text-white font-medium">
+                      {new Date(verification.employment_start).toLocaleDateString()}
+                    </div>
+                  </div>
+                )}
+                {verification.employment_end && (
+                  <div>
+                    <div className="text-[#6b7280]">End Date</div>
+                    <div className="text-white font-medium">
+                      {new Date(verification.employment_end).toLocaleDateString()}
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Quick Actions */}
+          <Card className="glass border-white/10">
+            <CardHeader>
+              <CardTitle className="text-white">Actions</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <Button 
+                onClick={downloadReport} 
+                variant="outline" 
+                className="w-full border-white/10"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Download PDF
+              </Button>
+              <Button 
+                onClick={shareReport} 
+                variant="outline" 
+                className="w-full border-white/10"
+              >
+                <Share2 className="w-4 h-4 mr-2" />
+                Share Report
+              </Button>
+              <Separator className="my-2 bg-white/10" />
+              <Button 
+                onClick={() => router.push('/dashboard/new')} 
+                className="w-full bg-gradient-to-r from-purple-600 to-blue-600"
+              >
+                <CheckCircle className="w-4 h-4 mr-2" />
+                New Verification
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Risk Breakdown */}
+          <Card className="glass border-white/10">
+            <CardHeader>
+              <CardTitle className="text-white">Risk Assessment</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="text-center">
+                <div className={`text-4xl font-bold mb-2 ${
+                  riskLevel === 'low' ? 'text-green-400' :
+                  riskLevel === 'medium' ? 'text-yellow-400' :
+                  riskLevel === 'high' ? 'text-orange-400' :
+                  'text-red-400'
+                }`}>
+                  {riskLevel === 'low' ? '🟢' :
+                   riskLevel === 'medium' ? '🟡' :
+                   riskLevel === 'high' ? '🟠' :
+                   '🔴'}
+                </div>
+                <div className="text-white font-medium capitalize">{result.risk_level} Risk</div>
+                <div className="text-[#6b7280] text-sm">Score: {riskScore}/100</div>
+              </div>
+              <Separator className="bg-white/10" />
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-[#6b7280]">Fraud Flags:</span>
+                  <span className="text-white font-medium">
+                    {result.fraud_flags?.length || 0}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#6b7280]">GitHub Verified:</span>
+                  <span className="text-white font-medium">
+                    {result.github_summary ? 'Yes' : 'No'}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#6b7280]">References Checked:</span>
+                  <span className="text-white font-medium">
+                    {result.reference_summary ? 'Yes' : 'No'}
+                  </span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </motion.div>
       </div>
     </motion.div>
   );
 }
+

@@ -7,7 +7,6 @@ from openai import AsyncOpenAI
 
 from services.github_api import analyze_github_profile
 from services.supabase_client import update_agent_progress, update_verification_status
-from services.mock_loader import generate_mock_references, simulate_outreach_responses
 from agents.fraud_detector import FraudDetector
 from config import get_settings
 
@@ -47,35 +46,19 @@ async def discover_references(state: VerificationState) -> VerificationState:
         message="Discovering references from employment history"
     )
     
-    employment_history = state["parsed_resume"].get("employment_history", [])
-    
-    # Generate 50-100 realistic references
-    refs = generate_mock_references(employment_history)
-    
-    await update_agent_progress(
-        verification_id=state["verification_id"],
-        agent_name="Reference Discovery",
-        status="in_progress",
-        message=f"Found {len(refs)} former coworkers, simulating outreach..."
-    )
-    
-    # Simulate 20% response rate with weighted templates
-    responses = simulate_outreach_responses(refs, response_rate=0.20)
-    
-    state["references"] = refs
-    state["reference_responses"] = responses
+    # This is a placeholder for the real implementation.
+    # In a real implementation, we would use an email or SMS service to
+    # contact references and wait for their responses.
     
     await update_agent_progress(
         verification_id=state["verification_id"],
         agent_name="Reference Discovery",
-        status="completed",
-        message=f"Contacted {len(refs)} references, {len(responses)} responded ({len(responses)/len(refs)*100:.0f}% response rate)",
-        data={
-            "references": refs[:10],  # Only send first 10 to avoid large payload
-            "responses": responses
-        }
+        status="skipped",
+        message="Reference discovery is not implemented yet."
     )
     
+    state["references"] = []
+    state["reference_responses"] = []
     state["current_step"] = "references_discovered"
     return state
 

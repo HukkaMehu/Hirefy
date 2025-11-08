@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Filter, Download, Eye, ArrowUpDown, Calendar } from 'lucide-react';
+import { Search, Filter, Download, Eye, ArrowUpDown, Calendar, FileSearch, Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { RiskBadge, getRiskLevel, type RiskLevel } from '@/src/components/dashboard/RiskBadge';
+import { SkeletonTableRow } from '@/src/components/dashboard/SkeletonCard';
 import { Input } from '@/src/components/ui/input';
 import { Button } from '@/src/components/ui/button';
 import { Badge } from '@/src/components/ui/badge';
@@ -231,15 +232,43 @@ export default function VerificationsPage() {
                 </TableHeader>
                 <TableBody>
                   {loading ? (
-                    <TableRow>
-                      <TableCell colSpan={7} className="text-center py-8 text-[#6b7280]">
-                        Loading verifications...
-                      </TableCell>
-                    </TableRow>
+                    <>
+                      {[...Array(8)].map((_, i) => (
+                        <TableRow key={i}>
+                          <TableCell colSpan={7}>
+                            <SkeletonTableRow />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </>
                   ) : filteredVerifications.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={7} className="text-center py-8 text-[#6b7280]">
-                        No verifications found
+                      <TableCell colSpan={7}>
+                        <div className="empty-state py-16">
+                          <FileSearch className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                          <p className="text-[#6b7280] mb-2">
+                            {searchQuery || statusFilter !== 'all' || riskFilter !== 'all'
+                              ? 'No verifications match your filters'
+                              : 'No verifications yet'}
+                          </p>
+                          <p className="text-[#6b7280] text-sm mb-4">
+                            {searchQuery || statusFilter !== 'all' || riskFilter !== 'all'
+                              ? 'Try adjusting your search or filters'
+                              : 'Get started by creating your first verification'}
+                          </p>
+                          {!searchQuery && statusFilter === 'all' && riskFilter === 'all' && (
+                            <Button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                router.push('/dashboard/new');
+                              }}
+                              className="bg-gradient-to-r from-purple-600 to-blue-600"
+                            >
+                              <Plus className="w-4 h-4 mr-2" />
+                              New Verification
+                            </Button>
+                          )}
+                        </div>
                       </TableCell>
                     </TableRow>
                   ) : (
