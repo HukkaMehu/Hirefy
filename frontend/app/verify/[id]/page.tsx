@@ -3,15 +3,15 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase, VerificationStep } from '@/lib/supabase'
-import { CheckCircle2, Loader2, XCircle } from 'lucide-react'
+import { CheckCircle2, Loader2, XCircle, AlertTriangle } from 'lucide-react'
 
 export default function VerifyPage({ params }: { params: { id: string } }) {
   const router = useRouter()
   const [steps, setSteps] = useState<VerificationStep[]>([])
   const [status, setStatus] = useState<string>('processing')
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Subscribe to real-time updates
     const channel = supabase
       .channel('verification_progress')
       .on(
@@ -26,8 +26,11 @@ export default function VerifyPage({ params }: { params: { id: string } }) {
           const newStep = payload.new as VerificationStep
           setSteps(prev => [...prev, newStep])
           
-          // Check if complete
-          if (newStep.agent_name === 'Report Synthesizer' && newStep.status === 'complete') {
+          if (newStep.status === 'failed') {
+            setError(`Agent ${newStep.agent_name} failed: ${newStep.message}`)
+          }
+          
+          if (newStep.agent_name === 'Report Synthesizer' && newStep.status === 'completed') {
             setTimeout(() => {
               router.push(`/report/${params.id}`)
             }, 2000)
@@ -36,16 +39,26 @@ export default function VerifyPage({ params }: { params: { id: string } }) {
       )
       .subscribe()
 
-    // Fetch existing steps
     const fetchSteps = async () => {
-      const { data } = await supabase
-        .from('verification_steps')
-        .select('*')
-        .eq('verification_id', params.id)
-        .order('created_at', { ascending: true })
-      
-      if (data) {
-        setSteps(data)
+      try {
+        const { data, error: fetchError } = await supabase
+          .from('verification_steps')
+          .select('*')
+          .eq('verification_id', params.id)
+          .order('created_at', { ascending: true })
+        
+        if (fetchError) throw fetchError
+        
+        if (data) {
+          setSteps(data)
+          const failedStep = data.find(s => s.status === 'failed')
+          if (failedStep) {
+            setError(`Agent ${failedStep.agent_name} failed: ${failedStep.message}`)
+          }
+        }
+      } catch (err) {
+        setError('Failed to load verification progress')
+        console.error(err)
       }
     }
     
@@ -57,9 +70,10 @@ export default function VerifyPage({ params }: { params: { id: string } }) {
   }, [params.id, router])
 
   const statusIcons = {
-    running: <Loader2 className="animate-spin h-6 w-6 text-blue-500" />,
-    complete: <CheckCircle2 className="h-6 w-6 text-green-600" />,
-    failed: <XCircle className="h-6 w-6 text-red-600" />
+    in_progress: <Loader2 className="animate-spin h-6 w-6 text-blue-500" />,
+    completed: <CheckCircle2 className="h-6 w-6 text-green-600" />,
+    failed: <XCircle className="h-6 w-6 text-red-600" />,
+    skipped: <AlertTriangle className="h-6 w-6 text-gray-400" />
   }
 
   return (
@@ -70,13 +84,26 @@ export default function VerifyPage({ params }: { params: { id: string } }) {
           <p className="text-gray-600">Our AI agents are analyzing the candidate...</p>
         </div>
 
+        {error && (
+          <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 animate-fade-in">
+            <div className="flex">
+              <XCircle className="h-6 w-6 text-red-500 mr-3" />
+              <div>
+                <h3 className="text-sm font-medium text-red-800">Error</h3>
+                <p className="text-sm text-red-700 mt-1">{error}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="space-y-4">
           {steps.map((step, idx) => (
             <div
               key={step.id}
-              className="bg-white rounded-lg shadow-md p-6 flex items-start gap-4 animate-fade-in"
+              className="bg-white rounded-lg shadow-md p-6 flex items-start gap-4 animate-fade-in transition-all hover:shadow-lg"
+              style={{ animationDelay: `${idx * 100}ms` }}
             >
-              {statusIcons[step.status]}
+              {statusIcons[step.status] || statusIcons.in_progress}
               <div className="flex-1">
                 <h3 className="font-semibold text-lg text-gray-900">{step.agent_name}</h3>
                 <p className="text-gray-700 mt-1">{step.message}</p>
@@ -87,7 +114,7 @@ export default function VerifyPage({ params }: { params: { id: string } }) {
             </div>
           ))}
 
-          {steps.length === 0 && (
+          {steps.length === 0 && !error && (
             <div className="bg-white rounded-lg shadow-md p-12 text-center">
               <Loader2 className="animate-spin h-12 w-12 text-indigo-600 mx-auto mb-4" />
               <p className="text-gray-600">Initializing verification...</p>

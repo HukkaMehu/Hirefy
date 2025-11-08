@@ -9,7 +9,7 @@ export type VerificationStep = {
   id: string
   verification_id: string
   agent_name: string
-  status: 'running' | 'complete' | 'failed'
+  status: 'in_progress' | 'completed' | 'failed' | 'skipped'
   message: string
   data?: any
   created_at: string
@@ -18,7 +18,7 @@ export type VerificationStep = {
 export type Verification = {
   id: string
   candidate_name: string
-  status: 'processing' | 'complete' | 'failed'
+  status: 'processing' | 'completed' | 'failed'
   risk_score?: 'green' | 'yellow' | 'red'
   result?: any
   created_at: string

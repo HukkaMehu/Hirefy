@@ -2,7 +2,7 @@ import pdfplumber
 from io import BytesIO
 from openai import OpenAI
 import json
-from config import get_settings
+from backend.config import get_settings
 from schemas import ParsedResume
 
 settings = get_settings()

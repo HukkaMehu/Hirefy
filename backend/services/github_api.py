@@ -2,7 +2,7 @@ import requests
 from typing import Optional
 from datetime import datetime
 from collections import defaultdict
-from config import get_settings
+from backend.config import get_settings
 
 settings = get_settings()
 

@@ -1,9 +1,10 @@
 from fastapi import FastAPI, UploadFile, HTTPException, BackgroundTasks, File
 from fastapi.middleware.cors import CORSMiddleware
-from config import get_settings
+from backend.config import get_settings
 from schemas import VerificationResponseV1
 from services.resume_parser import extract_text_from_pdf, parse_with_llm
 from services.supabase_client import supabase
+from agents.orchestrator import run_verification_workflow
 from datetime import datetime
 import uuid
 
@@ -118,6 +119,15 @@ async def create_verification(
         }).execute()
         
         print(f"[DEBUG] Verification {verification_id} created successfully")
+        
+        if background_tasks:
+            background_tasks.add_task(
+                run_verification_workflow,
+                verification_id,
+                parsed.model_dump(),
+                github_username or parsed.github_username
+            )
+            print(f"[DEBUG] Background workflow task queued")
         
         return VerificationResponseV1(
             verification_id=verification_id,

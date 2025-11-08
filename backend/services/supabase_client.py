@@ -1,5 +1,5 @@
 from supabase import create_client, Client
-from config import get_settings
+from backend.config import get_settings
 
 settings = get_settings()
 supabase: Client = create_client(
@@ -28,12 +28,12 @@ def get_verification(verification_id: str):
     result = supabase.table("verifications").select("*").eq("id", verification_id).single().execute()
     return result.data
 
-def update_verification_status(verification_id: str, status: str, result: dict = None):
+async def update_verification_status(verification_id: str, status: str, result: dict = None):
     """Update verification status and result"""
     update_data = {"status": status}
     if result:
         update_data["result"] = result
-    if status == "complete":
+    if status == "completed":
         from datetime import datetime
         update_data["completed_at"] = datetime.now().isoformat()
     
