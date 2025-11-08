@@ -1,6 +1,10 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent))
+
 from fastapi import FastAPI, UploadFile, HTTPException, BackgroundTasks, File
 from fastapi.middleware.cors import CORSMiddleware
-from backend.config import get_settings
+from config import get_settings
 from schemas import VerificationResponseV1
 from services.resume_parser import extract_text_from_pdf, parse_with_llm
 from services.supabase_client import supabase

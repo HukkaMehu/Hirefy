@@ -5,12 +5,14 @@ from datetime import datetime
 from langgraph.graph import StateGraph, END
 from openai import AsyncOpenAI
 
-from backend.services.github_api import analyze_github_profile
-from backend.services.supabase_client import update_agent_progress, update_verification_status
-from backend.agents.fraud_detector import FraudDetector
-from backend.config import get_settings
+from services.github_api import analyze_github_profile
+from services.supabase_client import update_agent_progress, update_verification_status
+from services.mock_loader import generate_mock_references, simulate_outreach_responses
+from agents.fraud_detector import FraudDetector
+from config import get_settings
 
 settings = get_settings()
+openai_client = AsyncOpenAI(api_key=settings.openai_api_key)
 
 
 class VerificationState(TypedDict):
@@ -45,46 +47,32 @@ async def discover_references(state: VerificationState) -> VerificationState:
         message="Discovering references from employment history"
     )
     
-    references = []
-    reference_responses = []
-    
     employment_history = state["parsed_resume"].get("employment_history", [])
     
-    for job in employment_history[:3]:
-        reference = {
-            "name": f"{random.choice(['Sarah', 'Mike', 'Lisa', 'David', 'Emma'])} {random.choice(['Smith', 'Johnson', 'Brown', 'Davis', 'Wilson'])}",
-            "company": job.get("company", "Unknown"),
-            "role": random.choice(["Manager", "Team Lead", "Director", "Supervisor"]),
-            "relationship": "Former Supervisor"
-        }
-        references.append(reference)
-        
-        if random.random() < 0.2:
-            response = {
-                "reference": reference,
-                "responded": True,
-                "rating": random.randint(3, 5),
-                "would_rehire": random.choice([True, True, True, False]),
-                "comments": random.choice([
-                    "Excellent team player and strong technical skills",
-                    "Good performer, always met deadlines",
-                    "Solid contributor to the team",
-                    "Had some challenges with communication",
-                ])
-            }
-            reference_responses.append(response)
+    # Generate 50-100 realistic references
+    refs = generate_mock_references(employment_history)
     
-    state["references"] = references
-    state["reference_responses"] = reference_responses
+    await update_agent_progress(
+        verification_id=state["verification_id"],
+        agent_name="Reference Discovery",
+        status="in_progress",
+        message=f"Found {len(refs)} former coworkers, simulating outreach..."
+    )
+    
+    # Simulate 20% response rate with weighted templates
+    responses = simulate_outreach_responses(refs, response_rate=0.20)
+    
+    state["references"] = refs
+    state["reference_responses"] = responses
     
     await update_agent_progress(
         verification_id=state["verification_id"],
         agent_name="Reference Discovery",
         status="completed",
-        message=f"Found {len(references)} references, {len(reference_responses)} responded",
+        message=f"Contacted {len(refs)} references, {len(responses)} responded ({len(responses)/len(refs)*100:.0f}% response rate)",
         data={
-            "references": references,
-            "responses": reference_responses
+            "references": refs[:10],  # Only send first 10 to avoid large payload
+            "responses": responses
         }
     )
     
@@ -204,7 +192,7 @@ async def synthesize_report(state: VerificationState) -> VerificationState:
     
     state["final_report"] = final_report
     
-    await update_verification_status(
+    update_verification_status(
         verification_id=state["verification_id"],
         status="completed",
         result=final_report
@@ -223,8 +211,6 @@ async def synthesize_report(state: VerificationState) -> VerificationState:
 
 
 async def generate_narrative(state: VerificationState) -> str:
-    client = AsyncOpenAI(api_key=settings.openai_api_key)
-    
     fraud_results = state["fraud_results"]
     parsed_resume = state["parsed_resume"]
     github_analysis = state.get("github_analysis", {})
@@ -252,7 +238,7 @@ Write a concise, professional summary that:
 Keep it factual and professional."""
 
     try:
-        response = await client.chat.completions.create(
+        response = await openai_client.chat.completions.create(
             model=settings.llm_model,
             messages=[
                 {"role": "system", "content": "You are a professional background verification analyst."},
@@ -310,7 +296,7 @@ def _summarize_references(reference_responses: list) -> str:
         return "No reference responses received"
     
     total = len(reference_responses)
-    avg_rating = sum(r.get("rating", 0) for r in reference_responses) / total if total > 0 else 0
+    avg_rating = sum(r.get("performance_rating", 0) for r in reference_responses) / total if total > 0 else 0
     would_rehire_count = sum(1 for r in reference_responses if r.get("would_rehire", False))
     
     return f"{total} references responded. Average rating: {avg_rating:.1f}/5. Would rehire: {would_rehire_count}/{total}"

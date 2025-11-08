@@ -55,6 +55,16 @@ export default function VerifyPage({ params }: { params: { id: string } }) {
           if (failedStep) {
             setError(`Agent ${failedStep.agent_name} failed: ${failedStep.message}`)
           }
+          
+          // Check if Report Synthesizer is already completed
+          const reportComplete = data.find(
+            s => s.agent_name === 'Report Synthesizer' && s.status === 'completed'
+          )
+          if (reportComplete) {
+            setTimeout(() => {
+              router.push(`/report/${params.id}`)
+            }, 2000)
+          }
         }
       } catch (err) {
         setError('Failed to load verification progress')

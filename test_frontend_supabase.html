@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Frontend Supabase Access</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <h1>Testing Frontend Supabase Access</h1>
+    <div id="result"></div>
+    
+    <script>
+        const SUPABASE_URL = 'https://hkmhumkvzgfsucysjamc.supabase.co'
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrbWh1bWt2emdmc3VjeXNqYW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1NTk0NTUsImV4cCI6MjA3ODEzNTQ1NX0.ZJt4Vr5osxgn8OnwDGeAqL9uvY3VOraqXoaLJxAjEHY'
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+        
+        async function testAccess() {
+            const resultDiv = document.getElementById('result')
+            resultDiv.innerHTML = '<p>Testing...</p>'
+            
+            try {
+                // Test 1: Read from verifications
+                console.log('Test 1: Reading verifications...')
+                const { data: verifications, error: verifError } = await supabase
+                    .from('verifications')
+                    .select('*')
+                    .limit(1)
+                
+                if (verifError) {
+                    throw new Error(`Verifications query failed: ${verifError.message}`)
+                }
+                
+                console.log('✓ Successfully read verifications:', verifications)
+                
+                // Test 2: Read from verification_steps
+                console.log('Test 2: Reading verification_steps...')
+                const { data: steps, error: stepsError } = await supabase
+                    .from('verification_steps')
+                    .select('*')
+                    .limit(5)
+                
+                if (stepsError) {
+                    throw new Error(`Verification steps query failed: ${stepsError.message}`)
+                }
+                
+                console.log('✓ Successfully read verification_steps:', steps)
+                
+                // Test 3: Try to read steps for a specific verification
+                if (verifications && verifications.length > 0) {
+                    const testId = verifications[0].id
+                    console.log(`Test 3: Reading steps for verification ${testId}...`)
+                    
+                    const { data: specificSteps, error: specificError } = await supabase
+                        .from('verification_steps')
+                        .select('*')
+                        .eq('verification_id', testId)
+                        .order('created_at', { ascending: true })
+                    
+                    if (specificError) {
+                        throw new Error(`Specific steps query failed: ${specificError.message}`)
+                    }
+                    
+                    console.log('✓ Successfully read steps for specific verification:', specificSteps)
+                    
+                    resultDiv.innerHTML = `
+                        <h2 style="color: green;">✓ All Tests Passed!</h2>
+                        <h3>Test 1: Verifications</h3>
+                        <pre>${JSON.stringify(verifications, null, 2)}</pre>
+                        <h3>Test 2: All Verification Steps</h3>
+                        <pre>${JSON.stringify(steps, null, 2)}</pre>
+                        <h3>Test 3: Steps for Verification ${testId}</h3>
+                        <pre>${JSON.stringify(specificSteps, null, 2)}</pre>
+                    `
+                } else {
+                    resultDiv.innerHTML = '<h2 style="color: orange;">⚠ No verifications found in database</h2>'
+                }
+                
+            } catch (error) {
+                console.error('✗ Test failed:', error)
+                resultDiv.innerHTML = `
+                    <h2 style="color: red;">✗ Test Failed</h2>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                    <p>Check browser console for details</p>
+                `
+            }
+        }
+        
+        // Run test on page load
+        testAccess()
+    </script>
+</body>
+</html>
