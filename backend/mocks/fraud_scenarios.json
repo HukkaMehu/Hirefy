@@ -1,0 +1,34 @@
+{
+  "scenarios": [
+    {
+      "id": "fake_github_activity",
+      "resume_claim": "Prolific open source contributor, 1000+ commits",
+      "github_reality": "Only 47 total commits, last activity 2 years ago",
+      "severity": "red"
+    },
+    {
+      "id": "title_inflation",
+      "resume_claim": "Senior Engineering Manager",
+      "verification_reality": "Junior Developer",
+      "severity": "red"
+    },
+    {
+      "id": "fake_education",
+      "resume_claim": "BS Computer Science, Stanford, 2018",
+      "nsc_reality": "No record found",
+      "severity": "red"
+    },
+    {
+      "id": "skill_exaggeration",
+      "resume_claim": "Expert Python developer",
+      "github_reality": "0 Python repositories, only JavaScript",
+      "severity": "yellow"
+    },
+    {
+      "id": "employment_gap",
+      "resume_claim": "Continuous employment 2018-2024",
+      "reality": "8-month unexplained gap in 2021",
+      "severity": "yellow"
+    }
+  ]
+}

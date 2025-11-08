@@ -1,0 +1,43 @@
+{
+  "templates": [
+    {
+      "id": "strong_performer",
+      "performance_rating": 8,
+      "strengths": ["Strong technical skills", "Excellent collaborator", "Takes initiative"],
+      "weaknesses": ["Sometimes misses deadlines under pressure"],
+      "would_rehire": true,
+      "examples": [
+        "Led the payment infrastructure rebuild, delivered 3 weeks early",
+        "Mentored 3 junior developers, all promoted within a year",
+        "Architected our microservices migration, reduced costs by 40%"
+      ],
+      "weight": 0.6
+    },
+    {
+      "id": "solid_contributor",
+      "performance_rating": 7,
+      "strengths": ["Reliable", "Good code quality", "Team player"],
+      "weaknesses": ["Needs direction on ambiguous tasks"],
+      "would_rehire": true,
+      "examples": [
+        "Rebuilt API gateway, reduced latency by 40%",
+        "Fixed critical security vulnerability in auth system",
+        "Consistently delivered features on time"
+      ],
+      "weight": 0.3
+    },
+    {
+      "id": "performance_concerns",
+      "performance_rating": 5,
+      "strengths": ["Technically competent"],
+      "weaknesses": ["Communication issues", "Missed multiple deadlines", "Needed close supervision"],
+      "would_rehire": false,
+      "examples": [
+        "Worked on frontend features but required extensive code review",
+        "Delivered features but often late and over budget",
+        "Struggled with complex problem-solving"
+      ],
+      "weight": 0.1
+    }
+  ]
+}
