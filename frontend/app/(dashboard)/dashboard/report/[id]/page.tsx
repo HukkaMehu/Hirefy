@@ -15,10 +15,11 @@ import {
   Calendar,
   ArrowLeft,
   Copy,
-  Check
+  Check,
+  Loader2
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { RiskBadge, getRiskLevel } from '@/src/components/dashboard/RiskBadge';
 import { Button } from '@/src/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/src/components/ui/card';
@@ -27,6 +28,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Separator } from '@/src/components/ui/separator';
 import { staggerChildren, fadeIn, slideUp } from '@/lib/animations';
 import { toast } from 'sonner';
+import { getVerification, type Verification } from '@/lib/supabase';
 
 // Mock data - will be replaced with Supabase query
 const mockReport = {
@@ -139,8 +141,67 @@ function getRelativeTime(timestamp: string): string {
 export default function ReportDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
-  
-  const riskLevel = getRiskLevel(mockReport.riskScore);
+  const [verification, setVerification] = useState<Verification | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchVerification = async () => {
+      try {
+        const data = await getVerification(params.id);
+        setVerification(data);
+      } catch (error) {
+        console.error('Error fetching verification:', error);
+        toast.error('Failed to load verification report');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVerification();
+  }, [params.id]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin text-purple-400 mx-auto mb-4" />
+          <p className="text-gray-400">Loading report...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!verification) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <XCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+          <p className="text-gray-400">Verification not found</p>
+          <Button onClick={() => router.push('/dashboard/verifications')} className="mt-4">
+            Back to Verifications
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (verification.status !== 'completed' || !verification.result) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <AlertCircle className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
+          <p className="text-gray-400">Verification is still in progress</p>
+          <Button onClick={() => router.push(`/dashboard/progress/${params.id}`)} className="mt-4">
+            View Progress
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const result = verification.result;
+  const riskScore = result.risk_score || 0;
+  const riskLevel = getRiskLevel(riskScore);
 
   const copyToClipboard = (text: string, index: number) => {
     navigator.clipboard.writeText(text);
@@ -151,6 +212,12 @@ export default function ReportDetailPage({ params }: { params: { id: string } })
 
   const downloadReport = () => {
     toast.info('PDF download feature coming soon');
+  };
+
+  const shareReport = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url);
+    toast.success('Report link copied to clipboard');
   };
 
   return (
@@ -173,13 +240,19 @@ export default function ReportDetailPage({ params }: { params: { id: string } })
           </Button>
           <h1 className="text-4xl font-bold gradient-text">Verification Report</h1>
           <p className="text-[#9ca3af] mt-2">
-            Generated {getRelativeTime(mockReport.timestamp)}
+            Generated {getRelativeTime(verification.created_at)}
           </p>
         </div>
-        <Button onClick={downloadReport} className="bg-gradient-to-r from-purple-600 to-blue-600">
-          <Download className="w-4 h-4 mr-2" />
-          Download PDF
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={shareReport} variant="outline" className="border-white/10">
+            <Copy className="w-4 h-4 mr-2" />
+            Share
+          </Button>
+          <Button onClick={downloadReport} className="bg-gradient-to-r from-purple-600 to-blue-600">
+            <Download className="w-4 h-4 mr-2" />
+            Download PDF
+          </Button>
+        </div>
       </motion.div>
 
       {/* Risk Summary Card */}
@@ -194,27 +267,33 @@ export default function ReportDetailPage({ params }: { params: { id: string } })
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div className="flex-1">
                 <div className="flex items-center gap-4 mb-4">
-                  <h2 className="text-2xl font-bold text-white">{mockReport.candidateName}</h2>
-                  <RiskBadge level={riskLevel} score={mockReport.riskScore} />
+                  <h2 className="text-2xl font-bold text-white">{verification.candidate_name}</h2>
+                  <RiskBadge level={riskLevel} score={riskScore} />
                 </div>
-                <p className="text-[#9ca3af] mb-4">{mockReport.summary}</p>
+                <p className="text-[#9ca3af] mb-4">
+                  {result.narrative || 'Verification completed successfully.'}
+                </p>
                 <div className="flex flex-wrap gap-4 text-sm text-[#9ca3af]">
-                  <div className="flex items-center gap-2">
-                    <Mail className="w-4 h-4" />
-                    {mockReport.email}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Phone className="w-4 h-4" />
-                    {mockReport.phone}
-                  </div>
+                  {verification.candidate_email && (
+                    <div className="flex items-center gap-2">
+                      <Mail className="w-4 h-4" />
+                      {verification.candidate_email}
+                    </div>
+                  )}
+                  {verification.candidate_phone && (
+                    <div className="flex items-center gap-2">
+                      <Phone className="w-4 h-4" />
+                      {verification.candidate_phone}
+                    </div>
+                  )}
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4" />
-                    {new Date(mockReport.timestamp).toLocaleDateString()}
+                    {new Date(verification.created_at).toLocaleDateString()}
                   </div>
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-5xl font-bold gradient-text mb-2">{mockReport.riskScore}</div>
+                <div className="text-5xl font-bold gradient-text mb-2">{riskScore}</div>
                 <div className="text-sm text-[#6b7280]">Risk Score</div>
               </div>
             </div>
@@ -227,78 +306,68 @@ export default function ReportDetailPage({ params }: { params: { id: string } })
         {/* Main Content */}
         <motion.div variants={fadeIn} className="lg:col-span-2 space-y-6">
           {/* GitHub Analysis */}
-          <Card className="glass border-white/10">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-white">
-                <Github className="w-5 h-5 text-purple-400" />
-                GitHub Analysis
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white">{mockReport.githubAnalysis.commits}</div>
-                  <div className="text-sm text-[#6b7280]">Commits</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white">{mockReport.githubAnalysis.repositories}</div>
-                  <div className="text-sm text-[#6b7280]">Repositories</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white">{mockReport.githubAnalysis.accountAge}</div>
-                  <div className="text-sm text-[#6b7280]">Account Age</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-400">{mockReport.githubAnalysis.contributionLevel}</div>
-                  <div className="text-sm text-[#6b7280]">Activity</div>
-                </div>
-              </div>
-              <Separator className="my-4 bg-white/10" />
-              <div>
-                <p className="text-sm text-[#9ca3af] mb-2">Primary Languages:</p>
-                <div className="flex flex-wrap gap-2">
-                  {mockReport.githubAnalysis.languages.map((lang) => (
-                    <Badge key={lang} variant="outline" className="bg-blue-500/10 text-blue-400 border-blue-500/30">
-                      {lang}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* HR Verification */}
-          {mockReport.hrVerification && (
+          {result.github_summary ? (
             <Card className="glass border-white/10">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-white">
-                  <Phone className="w-5 h-5 text-green-400" />
-                  HR Verification Call
+                  <Github className="w-5 h-5 text-purple-400" />
+                  GitHub Analysis
+                  {verification.github_username && (
+                    <a
+                      href={`https://github.com/${verification.github_username}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-purple-400 hover:text-purple-300 ml-2"
+                    >
+                      @{verification.github_username}
+                    </a>
+                  )}
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-400" />
-                  <span className="text-white font-medium">Employment Verified</span>
-                </div>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <div className="text-[#6b7280]">Company</div>
-                    <div className="text-white font-medium">{mockReport.hrVerification.company}</div>
-                  </div>
-                  <div>
-                    <div className="text-[#6b7280]">Position</div>
-                    <div className="text-white font-medium">{mockReport.hrVerification.position}</div>
-                  </div>
-                  <div>
-                    <div className="text-[#6b7280]">Start Date</div>
-                    <div className="text-white font-medium">
-                      {new Date(mockReport.hrVerification.startDate).toLocaleDateString()}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-[#6b7280]">End Date</div>
-                    <div className="text-white font-medium">
+              <CardContent>
+                <p className="text-[#9ca3af] whitespace-pre-wrap">{result.github_summary}</p>
+              </CardContent>
+            </Card>
+          ) : (
+            <Card className="glass border-white/10">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-white">
+                  <Github className="w-5 h-5 text-gray-400" />
+                  GitHub Analysis
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-[#6b7280]">No GitHub profile analyzed for this verification.</p>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Reference Verification */}
+          {result.reference_summary ? (
+            <Card className="glass border-white/10">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-white">
+                  <Users className="w-5 h-5 text-blue-400" />
+                  Reference Verification
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-[#9ca3af] whitespace-pre-wrap">{result.reference_summary}</p>
+              </CardContent>
+            </Card>
+          ) : (
+            <Card className="glass border-white/10">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-white">
+                  <Users className="w-5 h-5 text-gray-400" />
+                  Reference Verification
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-[#6b7280]">No reference checks completed for this verification.</p>
+              </CardContent>
+            </Card>
+          )}
                       {new Date(mockReport.hrVerification.endDate).toLocaleDateString()}
                     </div>
                   </div>
