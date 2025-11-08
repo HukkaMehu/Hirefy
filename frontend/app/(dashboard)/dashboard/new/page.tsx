@@ -1,102 +1,78 @@
 "use client";
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
   ArrowLeft,
-  ArrowRight,
-  Check,
+  Upload,
+  FileText,
   User,
-  Briefcase,
-  Settings,
-  CheckCircle,
-  Phone,
   Mail,
-  Linkedin,
-  Calendar,
-  Building
+  Phone,
+  CheckCircle,
+  Loader2,
+  X
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/src/components/ui/button';
 import { Input } from '@/src/components/ui/input';
 import { Label } from '@/src/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/src/components/ui/card';
-import { Checkbox } from '@/src/components/ui/checkbox';
-import { Separator } from '@/src/components/ui/separator';
-import { fadeIn, slideUp } from '@/lib/animations';
+import { fadeIn } from '@/lib/animations';
 import { toast } from 'sonner';
-
-type Step = 1 | 2 | 3 | 4;
-
-interface CandidateInfo {
-  name: string;
-  email: string;
-  phone: string;
-  linkedin: string;
-}
-
-interface EmploymentHistory {
-  company: string;
-  position: string;
-  startDate: string;
-  endDate: string;
-}
-
-interface VerificationOptions {
-  hrCall: boolean;
-  referenceCheck: boolean;
-  resumeAnalysis: boolean;
-  githubAnalysis: boolean;
-}
-
-const steps = [
-  { number: 1, title: 'Candidate Info', icon: User },
-  { number: 2, title: 'Employment', icon: Briefcase },
-  { number: 3, title: 'Verification', icon: Settings },
-  { number: 4, title: 'Review', icon: CheckCircle },
-];
 
 export default function NewVerificationPage() {
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState<Step>(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [dragActive, setDragActive] = useState(false);
 
   // Form state
-  const [candidateInfo, setCandidateInfo] = useState<CandidateInfo>({
-    name: '',
-    email: '',
-    phone: '',
-    linkedin: '',
-  });
+  const [candidateName, setCandidateName] = useState('');
+  const [candidateEmail, setCandidateEmail] = useState('');
+  const [candidatePhone, setCandidatePhone] = useState('');
 
-  const [employmentHistory, setEmploymentHistory] = useState<EmploymentHistory>({
-    company: '',
-    position: '',
-    startDate: '',
-    endDate: '',
-  });
-
-  const [verificationOptions, setVerificationOptions] = useState<VerificationOptions>({
-    hrCall: true,
-    referenceCheck: true,
-    resumeAnalysis: true,
-    githubAnalysis: false,
-  });
-
-  // Validation
-  const isStep1Valid = candidateInfo.name && candidateInfo.email && candidateInfo.phone;
-  const isStep2Valid = employmentHistory.company && employmentHistory.position && employmentHistory.startDate;
-  const isStep3Valid = Object.values(verificationOptions).some(v => v);
-
-  const canProceed = () => {
-    switch (currentStep) {
-      case 1: return isStep1Valid;
-      case 2: return isStep2Valid;
-      case 3: return isStep3Valid;
-      case 4: return true;
-      default: return false;
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
     }
   };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const file = e.dataTransfer.files[0];
+      if (file.type === 'application/pdf') {
+        setResumeFile(file);
+      } else {
+        toast.error('Please upload a PDF file');
+      }
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      if (file.type === 'application/pdf') {
+        setResumeFile(file);
+      } else {
+        toast.error('Please upload a PDF file');
+      }
+    }
+  };
+
+  const removeFile = () => {
+    setResumeFile(null);
+  };
+
+  const isFormValid = candidateName && candidateEmail && candidatePhone && resumeFile;
 
   const handleNext = () => {
     if (currentStep < 4 && canProceed()) {
@@ -111,15 +87,47 @@ export default function NewVerificationPage() {
   };
 
   const handleSubmit = async () => {
+    if (!canProceed()) {
+      toast.error('Please complete all required fields');
+      return;
+    }
+
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    toast.success('Verification started successfully!');
-    
-    // Redirect to progress/dashboard
-    router.push('/dashboard');
+    try {
+      const response = await fetch('/api/verify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          candidateName: candidateInfo.name,
+          candidateEmail: candidateInfo.email,
+          candidatePhone: candidateInfo.phone,
+          candidateLinkedIn: candidateInfo.linkedin,
+          company: employmentHistory.company,
+          position: employmentHistory.position,
+          startDate: employmentHistory.startDate,
+          endDate: employmentHistory.endDate,
+          verificationOptions: verificationOptions,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create verification');
+      }
+
+      toast.success('Verification started successfully!');
+      
+      // Redirect to progress page
+      router.push(`/dashboard/progress/${data.verification_id}`);
+    } catch (error) {
+      console.error('Error creating verification:', error);
+      toast.error(error instanceof Error ? error.message : 'Failed to create verification');
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -208,7 +216,7 @@ export default function NewVerificationPage() {
             <Card className="glass border-white/10">
               <CardHeader>
                 <CardTitle className="text-white">Candidate Information</CardTitle>
-                <CardDescription>Enter the candidate's basic details</CardDescription>
+                <CardDescription>Enter the candidate&apos;s basic details</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
@@ -277,7 +285,7 @@ export default function NewVerificationPage() {
             <Card className="glass border-white/10">
               <CardHeader>
                 <CardTitle className="text-white">Employment History</CardTitle>
-                <CardDescription>Enter the candidate's most recent employment</CardDescription>
+                <CardDescription>Enter the candidate&apos;s most recent employment</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
@@ -366,7 +374,7 @@ export default function NewVerificationPage() {
                       HR Verification Call
                     </Label>
                     <p className="text-sm text-[#9ca3af] mt-1">
-                      AI agent calls the company's HR department to verify employment history
+                      AI agent calls the company&apos;s HR department to verify employment history
                     </p>
                   </div>
                 </div>

@@ -119,7 +119,7 @@ export default function DashboardPage() {
       <motion.div variants={fadeIn}>
         <h1 className="text-4xl font-bold mb-2 gradient-text">Dashboard</h1>
         <p className="text-[#9ca3af]">
-          Welcome back! Here's what's happening with your verifications today.
+          Welcome back! Here&apos;s what&apos;s happening with your verifications today.
         </p>
       </motion.div>
 
